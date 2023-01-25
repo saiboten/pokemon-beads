@@ -1,7 +1,4 @@
 import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 import { api } from "../../utils/api";
@@ -14,13 +11,9 @@ const BeadDetail: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  if (typeof id !== "string") {
-    throw Error("Nope");
-  }
+  const idNumber = typeof id === "string" ? parseInt(id) : -1;
 
-  const idNumber = parseInt(id);
-
-  const detail = api.example.getBeadDetails.useQuery(parseInt(id));
+  const detail = api.example.getBeadDetails.useQuery(idNumber);
   const deleteBead = api.example.deleteBead.useMutation({
     onSuccess: async () => {
       await router.push("/");
