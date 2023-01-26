@@ -152,4 +152,12 @@ const Create: NextPage = () => {
   );
 };
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb", // Set desired value here
+    },
+  },
+};
+
 export default Create;

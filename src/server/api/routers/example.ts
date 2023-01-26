@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import sharp from "sharp";
 
 export const exampleRouter = createTRPCRouter({
   hello: publicProcedure
@@ -55,6 +56,22 @@ export const exampleRouter = createTRPCRouter({
       z.object({ child: z.number(), image: z.string(), pokemon: z.string() })
     )
     .mutation(async ({ ctx, input: { child, pokemon, image } }) => {
+      const bufferImage = Buffer.from(
+        image.substring(image.indexOf(",") + 1),
+        "base64"
+      );
+      const resized = await sharp(bufferImage)
+        .resize({
+          fit: "cover",
+          height: 300,
+          width: 300,
+        })
+        .toBuffer();
+
+      const resizedImage = `data:image/png;base64,${resized.toString(
+        "base64"
+      )}`;
+
       const childDb = await ctx.prisma.child.findFirstOrThrow({
         where: {
           id: child,
@@ -76,7 +93,7 @@ export const exampleRouter = createTRPCRouter({
 
       const res = await ctx.prisma.beadImage.create({
         data: {
-          image,
+          image: resizedImage,
           beadId: beadResponse.id,
         },
       });
