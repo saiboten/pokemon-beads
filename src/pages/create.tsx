@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { type NextPage } from "next";
 import { Controller, useForm } from "react-hook-form";
 import Head from "next/head";
 import Image from "next/image";
 import Select from "react-select";
-
+import convert from "image-file-resize";
 import { api } from "../utils/api";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
@@ -33,15 +36,21 @@ const Create: NextPage = () => {
 
   const onSubmit = handleSubmit(({ child, image, pokemon }) => {
     if (image[0]) {
-      const reader = getBase64(image[0]);
-
-      reader.onload = () => {
-        store.mutate({
-          child: parseInt(child),
-          image: reader.result as string,
-          pokemon: pokemon.value,
-        });
-      };
+      convert({
+        file: image[0],
+        width: 300,
+        height: 300,
+        type: "jpeg",
+      }).then((resp: File) => {
+        const reader = getBase64(resp);
+        reader.onload = () => {
+          store.mutate({
+            child: parseInt(child),
+            image: reader.result as string,
+            pokemon: pokemon.value,
+          });
+        };
+      });
     }
   });
 
