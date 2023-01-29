@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 import sharp from "sharp";
+import pokemon from "./pokemon.json";
 
 export const exampleRouter = createTRPCRouter({
   hello: publicProcedure
@@ -100,6 +101,19 @@ export const exampleRouter = createTRPCRouter({
 
       return res.id;
     }),
+
+  insertPokemen: publicProcedure.mutation(async ({ ctx }) => {
+    const pok = pokemon.results as unknown as { name: string }[];
+
+    const pokemen = pok.map(({ name }: { name: string }, index) => ({
+      name,
+      number: index + 1,
+    }));
+
+    await ctx.prisma.pokemon.createMany({
+      data: pokemen,
+    });
+  }),
 
   getSecretMessage: protectedProcedure.query(() => {
     return "you can now see this secret message!";
