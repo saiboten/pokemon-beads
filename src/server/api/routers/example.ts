@@ -52,6 +52,16 @@ export const exampleRouter = createTRPCRouter({
       });
     }),
 
+  deletePokemon: publicProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.pokemon.delete({
+        where: {
+          id: input,
+        },
+      });
+    }),
+
   storeBead: publicProcedure
     .input(
       z.object({ child: z.number(), image: z.string(), pokemon: z.string() })
@@ -64,8 +74,8 @@ export const exampleRouter = createTRPCRouter({
       const resized = await sharp(bufferImage)
         .resize({
           fit: "cover",
-          height: 300,
-          width: 300,
+          width: 1280,
+          height: 960,
         })
         .toBuffer();
 
