@@ -10,6 +10,8 @@ import convert from "image-file-resize";
 import { api } from "../utils/api";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
+import { StyledLink } from "../components/StyledLink";
+import Link from "next/link";
 
 type FormData = {
   child: string;
@@ -112,6 +114,15 @@ const Create: NextPage = () => {
                   />
                 )}
               />
+              {watch("pokemon") ? (
+                <Image
+                  width={96}
+                  height={96}
+                  src={`/images/${watch("pokemon").value ?? 0}.png`}
+                  alt="Perling"
+                />
+              ) : null}
+
               <div className="mb-4 flex items-center">
                 <input
                   {...register("child")}
@@ -170,6 +181,9 @@ const Create: NextPage = () => {
                 value="Lagre"
                 disabled={store.isLoading || !isValid}
               />
+
+              <Link href={"/"}>Tilbake</Link>
+
               {feedback ? feedback : null}
             </form>
           </div>

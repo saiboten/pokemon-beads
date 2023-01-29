@@ -45,12 +45,16 @@ const BeadDetail: NextPage = () => {
       />
 
       <Image
-        width={250}
-        height={250}
+        width={96}
+        height={96}
         src={`/images/${detail.data.pokemon?.number ?? 0}.png`}
         alt="Perling"
       />
       <div className="mb-4"></div>
+
+      <StyledLink link="/" text="Tilbake" />
+
+      <div className="mb-16"></div>
 
       <button
         className="mb-4 border-2 border-solid bg-sky-500 p-2 text-white hover:bg-sky-700"
@@ -59,8 +63,6 @@ const BeadDetail: NextPage = () => {
       >
         Slett
       </button>
-
-      <StyledLink link="/" text="Tilbake" />
     </Wrapper>
   );
 };
