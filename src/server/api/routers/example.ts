@@ -1,22 +1,14 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 import sharp from "sharp";
 import pokemon from "./pokemon.json";
 
 export const exampleRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
-  getPokemons: publicProcedure.query(({ ctx }) => {
+  getPokemons: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.pokemon.findMany();
   }),
 
-  getAllBeads: publicProcedure.query(({ ctx }) => {
+  getAllBeads: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.bead.findMany({
       include: {
         child: true,
@@ -25,7 +17,7 @@ export const exampleRouter = createTRPCRouter({
     });
   }),
 
-  getBeadDetails: publicProcedure
+  getBeadDetails: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
       const bead = await ctx.prisma.bead.findFirst({
@@ -42,7 +34,7 @@ export const exampleRouter = createTRPCRouter({
       return bead;
     }),
 
-  deleteBead: publicProcedure
+  deleteBead: protectedProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.bead.delete({
@@ -52,7 +44,7 @@ export const exampleRouter = createTRPCRouter({
       });
     }),
 
-  deletePokemon: publicProcedure
+  deletePokemon: protectedProcedure
     .input(z.string())
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.pokemon.delete({
@@ -62,7 +54,7 @@ export const exampleRouter = createTRPCRouter({
       });
     }),
 
-  storeBead: publicProcedure
+  storeBead: protectedProcedure
     .input(
       z.object({ child: z.number(), image: z.string(), pokemon: z.string() })
     )
@@ -112,7 +104,7 @@ export const exampleRouter = createTRPCRouter({
       return res.id;
     }),
 
-  insertPokemen: publicProcedure.mutation(async ({ ctx }) => {
+  insertPokemen: protectedProcedure.mutation(async ({ ctx }) => {
     const pok = pokemon.results as unknown as { name: string }[];
 
     const pokemen = pok.map(({ name }: { name: string }, index) => ({

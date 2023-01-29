@@ -4,12 +4,27 @@ import Link from "next/link";
 import { Text } from "../components/Text";
 import { Wrapper } from "../components/Wrapper";
 import { api } from "../utils/api";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
 
-  if (beads.isLoading) {
+  const session = useSession();
+
+  if (beads.isLoading || session.status == "loading") {
     return <div>Loading</div>;
+  }
+
+  if (session.status === "unauthenticated") {
+    <div className="flex flex-col items-center justify-center gap-4">
+      <p className="text-center text-2xl text-white"></p>
+      <button
+        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+        onClick={() => void signIn()}
+      >
+        Logg inn
+      </button>
+    </div>;
   }
 
   return (
@@ -21,6 +36,11 @@ const Home: NextPage = () => {
       </Head>
       <Wrapper>
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+          {session && (
+            <span className="text-white">
+              Logget inn som {session.data?.user?.name}
+            </span>
+          )}
           <h1 className="text-5xl font-extrabold text-white sm:text-[5rem]">
             Pokemon
           </h1>

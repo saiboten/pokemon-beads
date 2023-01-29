@@ -9,8 +9,6 @@ import Select from "react-select";
 import convert from "image-file-resize";
 import { api } from "../utils/api";
 import { useMemo, useState } from "react";
-import { useRouter } from "next/router";
-import { StyledLink } from "../components/StyledLink";
 import Link from "next/link";
 
 type FormData = {
