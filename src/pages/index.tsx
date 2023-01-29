@@ -9,22 +9,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
 
-  const session = useSession();
+  const { status, data } = useSession();
 
-  if (beads.isLoading || session.status == "loading") {
+  if (beads.isLoading || status == "loading") {
     return <div>Loading</div>;
-  }
-
-  if (session.status === "unauthenticated") {
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white"></p>
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={() => void signIn()}
-      >
-        Logg inn
-      </button>
-    </div>;
   }
 
   return (
@@ -36,9 +24,9 @@ const Home: NextPage = () => {
       </Head>
       <Wrapper>
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          {session && (
+          {data && (
             <span className="text-white">
-              Logget inn som {session.data?.user?.name}
+              Logget inn som {data?.user?.name}
             </span>
           )}
           <h1 className="text-5xl font-extrabold text-white sm:text-[5rem]">
@@ -59,6 +47,14 @@ const Home: NextPage = () => {
               </Link>
             );
           })}
+        </div>
+        <div className="flex flex-col items-center justify-center gap-4">
+          <button
+            className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+            onClick={data ? () => void signOut() : () => void signIn()}
+          >
+            {data ? "Sign out" : "Sign in"}
+          </button>
         </div>
       </Wrapper>
     </>
