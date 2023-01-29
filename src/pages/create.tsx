@@ -85,7 +85,7 @@ const Create: NextPage = () => {
   }
 
   const image = watch("image") !== undefined ? watch("image")[0] : undefined;
-  console.log(isValid);
+
   return (
     <>
       <Head>

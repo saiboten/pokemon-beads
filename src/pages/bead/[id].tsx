@@ -43,6 +43,13 @@ const BeadDetail: NextPage = () => {
         src={detail.data.beadBlob.image}
         alt="Perling"
       />
+
+      <Image
+        width={250}
+        height={250}
+        src={`/images/${detail.data.pokemon?.number ?? 0}.png`}
+        alt="Perling"
+      />
       <div className="mb-4"></div>
 
       <button
