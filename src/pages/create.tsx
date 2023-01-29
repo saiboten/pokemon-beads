@@ -8,7 +8,7 @@ import Image from "next/image";
 import Select from "react-select";
 import convert from "image-file-resize";
 import { api } from "../utils/api";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
 type FormData = {
@@ -24,15 +24,28 @@ function getBase64(file: File) {
 }
 
 const Create: NextPage = () => {
-  const router = useRouter();
+  const [feedback, setFeedback] = useState<string | undefined>();
   const pokemons = api.example.getPokemons.useQuery();
+  const {
+    reset,
+    control,
+    register,
+    handleSubmit,
+    watch,
+    formState: { isValid },
+  } = useForm<FormData>();
   const store = api.example.storeBead.useMutation({
-    onSuccess: async (data) => {
-      await router.push(`/bead/${data}`);
+    onSuccess: () => {
+      setFeedback("Lagret!");
+      reset({
+        image: undefined,
+        pokemon: {
+          value: undefined,
+          label: "",
+        },
+      });
     },
   });
-
-  const { control, register, handleSubmit, watch } = useForm<FormData>();
 
   const onSubmit = handleSubmit(({ child, image, pokemon }) => {
     if (image[0]) {
@@ -72,7 +85,7 @@ const Create: NextPage = () => {
   }
 
   const image = watch("image") !== undefined ? watch("image")[0] : undefined;
-
+  console.log(isValid);
   return (
     <>
       <Head>
@@ -80,12 +93,12 @@ const Create: NextPage = () => {
         <meta name="description" content="Pokemon Bead Overview" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
+      <main className="flex flex-col items-center justify-center">
+        <div className="container flex flex-col items-center justify-center gap-12 p-4">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[3rem]">
             Lagre ny perling
           </h1>
-          <div className="w-96">
+          <div className="w-60">
             <form onSubmit={onSubmit}>
               <Controller
                 name="pokemon"
@@ -94,6 +107,7 @@ const Create: NextPage = () => {
                   <Select
                     className="mb-4 w-full"
                     {...field}
+                    required
                     options={options}
                   />
                 )}
@@ -101,6 +115,7 @@ const Create: NextPage = () => {
               <div className="mb-4 flex items-center">
                 <input
                   {...register("child")}
+                  required
                   id="default-radio-1"
                   type="radio"
                   value="1"
@@ -116,6 +131,7 @@ const Create: NextPage = () => {
               <div className="mb-4 flex items-center">
                 <input
                   {...register("child")}
+                  required
                   id="default-radio-2"
                   type="radio"
                   value="2"
@@ -149,10 +165,12 @@ const Create: NextPage = () => {
               />
 
               <input
-                className="border-2 border-solid bg-sky-500 p-2 text-white hover:bg-sky-700"
+                className="border-2 border-solid bg-sky-500 p-2 text-white hover:bg-sky-700 disabled:bg-gray-500"
                 type="submit"
                 value="Lagre"
+                disabled={store.isLoading || !isValid}
               />
+              {feedback ? feedback : null}
             </form>
           </div>
         </div>
