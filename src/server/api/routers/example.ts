@@ -74,8 +74,8 @@ export const exampleRouter = createTRPCRouter({
       const resized = await sharp(bufferImage)
         .resize({
           fit: "cover",
-          width: 1280,
-          height: 960,
+          width: 480,
+          height: 640,
         })
         .toBuffer();
 

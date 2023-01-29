@@ -38,8 +38,8 @@ const Create: NextPage = () => {
     if (image[0]) {
       convert({
         file: image[0],
-        width: 1280,
-        height: 960,
+        height: 640,
+        width: 480,
         type: "jpeg",
       }).then((resp: File) => {
         const reader = getBase64(resp);
