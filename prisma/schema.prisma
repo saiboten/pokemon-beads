@@ -15,9 +15,11 @@ datasource db {
 }
 
 model Child {
-    id    Int    @id @default(autoincrement())
-    name  String
-    Beads Bead[]
+    id       Int     @id @default(autoincrement())
+    name     String
+    parentId String?
+    parent   User?   @relation(fields: [parentId], references: [id])
+    Beads    Bead[]
 }
 
 model BeadImage {
@@ -81,6 +83,7 @@ model User {
     sessions      Session[]
     Pokemon       Pokemon?  @relation(fields: [pokemonId], references: [id])
     pokemonId     String?
+    Child         Child[]
 }
 
 model VerificationToken {

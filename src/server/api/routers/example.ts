@@ -34,6 +34,36 @@ export const exampleRouter = createTRPCRouter({
       return bead;
     }),
 
+  getChildren: protectedProcedure.query(async ({ ctx }) => {
+    const children = await ctx.prisma.child.findMany({
+      where: {
+        parentId: ctx.session.user.id ?? "-",
+      },
+    });
+
+    return children;
+  }),
+
+  getChildDetails: protectedProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      const children = await ctx.prisma.child.findFirst({
+        where: {
+          id: input,
+        },
+        include: {
+          Beads: {
+            include: {
+              pokemon: true,
+              beadBlob: true,
+            },
+          },
+        },
+      });
+
+      return children;
+    }),
+
   deleteBead: protectedProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {

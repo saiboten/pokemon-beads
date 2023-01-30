@@ -8,10 +8,11 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
+  const children = api.example.getChildren.useQuery();
 
   const { status, data } = useSession();
 
-  if (beads.isLoading || status == "loading") {
+  if (beads.isLoading || status == "loading" || children.isLoading) {
     return <div>Loading</div>;
   }
 
@@ -24,29 +25,40 @@ const Home: NextPage = () => {
       </Head>
       <Wrapper>
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          {data && (
-            <span className="text-white">
-              Logget inn som {data?.user?.name}
-            </span>
-          )}
-          <h1 className="text-5xl font-extrabold text-white sm:text-[5rem]">
-            Pokemon
-          </h1>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="/create"
-          >
-            Jeg har laget ny perling!
-          </Link>
-          {beads.data?.map((el) => {
-            return (
-              <Link href={`/bead/${el.id}`} key={el.id}>
-                <Text>
-                  {el.child.name} - {el.pokemon?.name}
-                </Text>
-              </Link>
-            );
-          })}
+          <>
+            {data && (
+              <span className="text-white">
+                Logget inn som {data?.user?.name}
+              </span>
+            )}
+            <h1 className="text-5xl font-extrabold text-white sm:text-[5rem]">
+              Pokemon
+            </h1>
+            <Link
+              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+              href="/create"
+            >
+              Jeg har laget ny perling!
+            </Link>
+
+            {children.data?.map((el) => {
+              return (
+                <Link href={`/child/${el.id}`} key={el.id}>
+                  <Text>{el.name}</Text>
+                </Link>
+              );
+            })}
+
+            {beads.data?.map((el) => {
+              return (
+                <Link href={`/bead/${el.id}`} key={el.id}>
+                  <Text>
+                    {el.child.name} - {el.pokemon?.name}
+                  </Text>
+                </Link>
+              );
+            })}
+          </>
         </div>
         <div className="flex flex-col items-center justify-center gap-4">
           <button
