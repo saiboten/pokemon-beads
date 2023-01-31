@@ -4,16 +4,26 @@ import Link from "next/link";
 import { api } from "../utils/api";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useState } from "react";
 
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
   const children = api.example.getChildren.useQuery();
+  const [searchFilter, setSearchFilter] = useState("");
 
   const { status, data } = useSession();
 
   if (beads.isLoading || status == "loading" || children.isLoading) {
     return <div>Loading</div>;
   }
+
+  const filteredBeads = beads.data?.filter((el) => {
+    if (searchFilter === "") {
+      return true;
+    }
+
+    return el.pokemon?.name.indexOf(searchFilter) !== -1;
+  });
 
   return (
     <>
@@ -52,7 +62,15 @@ const Home: NextPage = () => {
             })}
           </div>
 
-          {beads.data?.map((el) => {
+          <input
+            className="mb-8 p-4 text-lg text-black"
+            type="text"
+            placeholder="Filtrer"
+            value={searchFilter}
+            onChange={(e) => setSearchFilter(e.target.value)}
+          ></input>
+          <h1 className="mb-4 text-center text-4xl">Perler</h1>
+          {filteredBeads?.map((el) => {
             return (
               <Link
                 href={`/bead/${el.id}`}
