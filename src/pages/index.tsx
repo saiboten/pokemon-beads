@@ -6,6 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
 import { capitalize } from "../utils/capitalize";
+import { Loading } from "../components/Loading";
 
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
@@ -14,8 +15,8 @@ const Home: NextPage = () => {
 
   const { status, data } = useSession();
 
-  if (beads.isLoading || status == "loading" || children.isLoading) {
-    return <div>Loading</div>;
+  if (beads.isLoading || status == "loading" || children.isLoading || true) {
+    return <Loading />;
   }
 
   const filteredBeads = beads.data?.filter((el) => {
