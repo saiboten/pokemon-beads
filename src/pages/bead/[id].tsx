@@ -5,6 +5,7 @@ import { api } from "../../utils/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Loading } from "../../components/Loading";
 
 const BeadDetail: NextPage = () => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -21,7 +22,7 @@ const BeadDetail: NextPage = () => {
   });
 
   if (detail.isLoading || deleteBead.isLoading) {
-    return <div className="wrapper">Loading</div>;
+    return <Loading />;
   }
 
   if (!detail.data?.beadBlob) {
