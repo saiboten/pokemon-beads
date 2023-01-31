@@ -37,8 +37,8 @@ const BeadDetail: NextPage = () => {
   }
 
   return (
-    <main className="wrapper">
-      <h1 className="mb-4 text-3xl">
+    <main className="wrapper m-auto max-w-md">
+      <h1 className="mb-4 text-2xl">
         {detail.data.child.name} sin perling av {detail.data.pokemon?.name}
       </h1>
       <div className="flex items-center">

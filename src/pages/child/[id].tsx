@@ -4,13 +4,7 @@ import { useRouter } from "next/router";
 import { api } from "../../utils/api";
 import Image from "next/image";
 import Link from "next/link";
-
-function capitalize(str?: string) {
-  if (!str) {
-    return undefined;
-  }
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+import { capitalize } from "../../utils/capitalize";
 
 const Child: NextPage = () => {
   const router = useRouter();
@@ -25,7 +19,7 @@ const Child: NextPage = () => {
   }
 
   return (
-    <main className="wrapper">
+    <main className="wrapper max-w-lg">
       <h1 className="mb-4 text-3xl">Perlene til {detail.data?.name}</h1>
 
       {detail.data?.Beads.map((bead) => {

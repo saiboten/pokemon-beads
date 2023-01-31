@@ -5,6 +5,7 @@ import { api } from "../utils/api";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useState } from "react";
+import { capitalize } from "../utils/capitalize";
 
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
@@ -77,7 +78,8 @@ const Home: NextPage = () => {
                 key={el.id}
                 className="m-auto mb-4 block max-w-lg rounded-lg border border-solid border-white p-4 text-center text-white"
               >
-                {el.child.name} - {el.pokemon?.name}
+                {el.child.name} #{el.pokemon?.number} -{" "}
+                {capitalize(el.pokemon?.name)}
                 <Image
                   className="inline"
                   width={96}

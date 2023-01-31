@@ -8,13 +8,17 @@ export const exampleRouter = createTRPCRouter({
     return ctx.prisma.pokemon.findMany();
   }),
 
-  getAllBeads: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.bead.findMany({
+  getAllBeads: protectedProcedure.query(async ({ ctx }) => {
+    const beads = await ctx.prisma.bead.findMany({
       include: {
         child: true,
         pokemon: true,
       },
     });
+
+    return beads.sort((el1, el2) =>
+      (el1.pokemon?.number ?? 0) < (el2.pokemon?.number ?? 0) ? -1 : 1
+    );
   }),
 
   getBeadDetails: protectedProcedure
