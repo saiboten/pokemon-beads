@@ -2,7 +2,6 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 
 import { api } from "../../utils/api";
-import { Wrapper } from "../../components/Wrapper";
 import Image from "next/image";
 import { Text } from "../../components/Text";
 import { StyledLink } from "../../components/StyledLink";
@@ -21,7 +20,7 @@ const BeadDetail: NextPage = () => {
   });
 
   if (detail.isLoading || deleteBead.isLoading) {
-    return <Wrapper>Loading</Wrapper>;
+    return <div className="wrapper">Loading</div>;
   }
 
   if (!detail.data?.beadBlob) {
@@ -33,7 +32,7 @@ const BeadDetail: NextPage = () => {
   }
 
   return (
-    <Wrapper>
+    <main className="wrapper">
       <Text>
         {detail.data.child.name} sin perling av {detail.data.pokemon?.name}
       </Text>
@@ -63,7 +62,7 @@ const BeadDetail: NextPage = () => {
       >
         Slett
       </button>
-    </Wrapper>
+    </main>
   );
 };
 

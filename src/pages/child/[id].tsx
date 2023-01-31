@@ -2,7 +2,6 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 
 import { api } from "../../utils/api";
-import { Wrapper } from "../../components/Wrapper";
 import Image from "next/image";
 import { Text } from "../../components/Text";
 import { StyledLink } from "../../components/StyledLink";
@@ -16,11 +15,11 @@ const Child: NextPage = () => {
   const detail = api.example.getChildDetails.useQuery(idNumber);
 
   if (detail.isLoading) {
-    return <Wrapper>Loading</Wrapper>;
+    return <div className="wrapper">Loading</div>;
   }
 
   return (
-    <Wrapper>
+    <main className="wrapper">
       <Text>Hei og hopp</Text>
 
       {detail.data?.Beads.map((bead) => {
@@ -49,7 +48,7 @@ const Child: NextPage = () => {
       <div className="mb-4"></div>
 
       <StyledLink link="/" text="Tilbake" />
-    </Wrapper>
+    </main>
   );
 };
 

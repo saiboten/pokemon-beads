@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import { Wrapper } from "../components/Wrapper";
 import { api } from "../utils/api";
 
 const Pokemon: NextPage = () => {
@@ -15,7 +14,7 @@ const Pokemon: NextPage = () => {
   }
 
   return (
-    <Wrapper>
+    <main className="wrapper">
       <ul className="text-white">
         {pokemon.data?.map((el) => (
           <li key={el.id}>
@@ -23,7 +22,7 @@ const Pokemon: NextPage = () => {
           </li>
         ))}
       </ul>
-    </Wrapper>
+    </main>
   );
 };
 

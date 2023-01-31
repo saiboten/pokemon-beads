@@ -10,7 +10,9 @@ const InsertPokemon: NextPage = () => {
 
   return (
     <div>
-      <button onClick={handle}>Legg til</button>
+      <button className="btn-primary" onClick={handle}>
+        Legg til
+      </button>
     </div>
   );
 };
