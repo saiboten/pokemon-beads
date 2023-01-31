@@ -8,6 +8,10 @@ import { useState } from "react";
 import { capitalize } from "../utils/capitalize";
 import { Loading } from "../components/Loading";
 
+function onlyUnique(value: string, index: number, self: string) {
+  return self.indexOf(value) === index;
+}
+
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
   const children = api.example.getChildren.useQuery();
@@ -44,6 +48,7 @@ const Home: NextPage = () => {
           <h1 className="mb-4 text-5xl font-extrabold text-white sm:text-[5rem]">
             Pokemon
           </h1>
+
           <Link
             className="mb-4 inline-block gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
             href="/create"

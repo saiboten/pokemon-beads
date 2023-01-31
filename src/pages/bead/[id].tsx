@@ -42,7 +42,7 @@ const BeadDetail: NextPage = () => {
       <h1 className="mb-4 text-2xl">
         {detail.data.child.name} sin perling av {detail.data.pokemon?.name}
       </h1>
-      <div className="flex items-center">
+      <div className="relative m-auto w-64">
         <Image
           width={250}
           height={250}
@@ -51,6 +51,7 @@ const BeadDetail: NextPage = () => {
         />
 
         <Image
+          className="absolute -right-4 -top-4"
           width={96}
           height={96}
           src={`/images/${detail.data.pokemon?.number ?? 0}.png`}
@@ -59,24 +60,20 @@ const BeadDetail: NextPage = () => {
       </div>
       <div className="mb-4"></div>
 
-      <Link className="link mb-8 inline-block" href="/">
+      <Link className="link mb-8 mr-2 inline-block" href="/">
         Tilbake
       </Link>
 
-      <div className="relative">
+      <span className="relative">
         {deleteConfirm ? (
           <p className="top-50 absolute left-auto mb-4">
             Sikker på at du vil slette?
           </p>
         ) : null}
-        <button
-          className="mb-4 mt-8 border-2 border-solid bg-sky-500 p-2 text-white hover:bg-sky-700"
-          type="button"
-          onClick={handleDelete}
-        >
+        <button className="btn-warning" type="button" onClick={handleDelete}>
           Slett
         </button>
-      </div>
+      </span>
     </main>
   );
 };
