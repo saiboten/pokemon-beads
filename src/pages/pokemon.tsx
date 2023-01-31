@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import { Loading } from "../components/Loading";
 import { api } from "../utils/api";
 
 const Pokemon: NextPage = () => {
@@ -6,7 +7,7 @@ const Pokemon: NextPage = () => {
   const deleteMutation = api.example.deletePokemon.useMutation();
 
   if (pokemon.isLoading) {
-    return <div>Loading</div>;
+    return <Loading />;
   }
 
   function handleDelete(id: string) {

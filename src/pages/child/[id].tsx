@@ -5,6 +5,7 @@ import { api } from "../../utils/api";
 import Image from "next/image";
 import Link from "next/link";
 import { capitalize } from "../../utils/capitalize";
+import { Loading } from "../../components/Loading";
 
 const Child: NextPage = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const Child: NextPage = () => {
   const detail = api.example.getChildDetails.useQuery(idNumber);
 
   if (detail.isLoading) {
-    return <div className="wrapper">Loading</div>;
+    return <Loading />;
   }
 
   return (

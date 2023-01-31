@@ -10,6 +10,7 @@ import convert from "image-file-resize";
 import { api } from "../utils/api";
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { Loading } from "../components/Loading";
 
 type FormData = {
   child: string;
@@ -77,7 +78,7 @@ const Create: NextPage = () => {
   );
 
   if (pokemons.isLoading) {
-    return <div>Loading</div>;
+    return <Loading />;
   }
 
   if (!pokemons.data) {

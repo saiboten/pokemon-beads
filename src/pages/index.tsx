@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
   const { status, data } = useSession();
 
-  if (beads.isLoading || status == "loading" || children.isLoading || true) {
+  if (beads.isLoading || status == "loading" || children.isLoading) {
     return <Loading />;
   }
 
