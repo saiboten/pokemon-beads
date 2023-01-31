@@ -105,7 +105,7 @@ const Create: NextPage = () => {
                 control={control}
                 render={({ field }) => (
                   <Select
-                    className="mb-4 w-full"
+                    className="mb-4 w-full text-black"
                     {...field}
                     required
                     options={options}
@@ -132,7 +132,7 @@ const Create: NextPage = () => {
                 />
                 <label
                   htmlFor="default-radio-1"
-                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="ml-2 text-sm font-medium"
                 >
                   Sverre
                 </label>
@@ -148,7 +148,7 @@ const Create: NextPage = () => {
                 />
                 <label
                   htmlFor="default-radio-2"
-                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  className="ml-2 text-sm font-medium"
                 >
                   Brage
                 </label>
@@ -174,13 +174,15 @@ const Create: NextPage = () => {
               />
 
               <input
-                className="border-2 border-solid bg-sky-500 p-2 text-white hover:bg-sky-700 disabled:bg-gray-500"
+                className="btn-primary mr-4"
                 type="submit"
                 value="Lagre"
                 disabled={store.isLoading || !isValid}
               />
 
-              <Link href={"/"}>Tilbake</Link>
+              <Link className="link inline-block" href={"/"}>
+                Tilbake
+              </Link>
 
               {feedback ? feedback : null}
             </form>

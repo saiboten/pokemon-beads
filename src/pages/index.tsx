@@ -1,7 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { Text } from "../components/Text";
 import { api } from "../utils/api";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -47,7 +46,7 @@ const Home: NextPage = () => {
                   href={`/child/${el.id}`}
                   key={el.id}
                 >
-                  <Text>{el.name}</Text>
+                  <div>{el.name}</div>
                 </Link>
               );
             })}

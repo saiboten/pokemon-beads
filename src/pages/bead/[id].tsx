@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 
 import { api } from "../../utils/api";
 import Image from "next/image";
-import { Text } from "../../components/Text";
-import { StyledLink } from "../../components/StyledLink";
+import Link from "next/link";
+import { useState } from "react";
 
 const BeadDetail: NextPage = () => {
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
   const router = useRouter();
   const { id } = router.query;
 
@@ -28,40 +29,53 @@ const BeadDetail: NextPage = () => {
   }
 
   function handleDelete() {
-    deleteBead.mutate(idNumber);
+    if (deleteConfirm) {
+      deleteBead.mutate(idNumber);
+    } else {
+      setDeleteConfirm(true);
+    }
   }
 
   return (
     <main className="wrapper">
-      <Text>
+      <h1 className="mb-4 text-3xl">
         {detail.data.child.name} sin perling av {detail.data.pokemon?.name}
-      </Text>
-      <Image
-        width={250}
-        height={250}
-        src={detail.data.beadBlob.image}
-        alt="Perling"
-      />
+      </h1>
+      <div className="flex items-center">
+        <Image
+          width={250}
+          height={250}
+          src={detail.data.beadBlob.image}
+          alt="Perling"
+        />
 
-      <Image
-        width={96}
-        height={96}
-        src={`/images/${detail.data.pokemon?.number ?? 0}.png`}
-        alt="Perling"
-      />
+        <Image
+          width={96}
+          height={96}
+          src={`/images/${detail.data.pokemon?.number ?? 0}.png`}
+          alt="Perling"
+        />
+      </div>
       <div className="mb-4"></div>
 
-      <StyledLink link="/" text="Tilbake" />
+      <Link className="link mb-8 inline-block" href="/">
+        Tilbake
+      </Link>
 
-      <div className="mb-16"></div>
-
-      <button
-        className="mb-4 border-2 border-solid bg-sky-500 p-2 text-white hover:bg-sky-700"
-        type="button"
-        onClick={handleDelete}
-      >
-        Slett
-      </button>
+      <div className="relative">
+        {deleteConfirm ? (
+          <p className="top-50 absolute left-auto mb-4">
+            Sikker på at du vil slette?
+          </p>
+        ) : null}
+        <button
+          className="mb-4 mt-8 border-2 border-solid bg-sky-500 p-2 text-white hover:bg-sky-700"
+          type="button"
+          onClick={handleDelete}
+        >
+          Slett
+        </button>
+      </div>
     </main>
   );
 };

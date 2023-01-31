@@ -3,8 +3,14 @@ import { useRouter } from "next/router";
 
 import { api } from "../../utils/api";
 import Image from "next/image";
-import { Text } from "../../components/Text";
-import { StyledLink } from "../../components/StyledLink";
+import Link from "next/link";
+
+function capitalize(str?: string) {
+  if (!str) {
+    return undefined;
+  }
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 const Child: NextPage = () => {
   const router = useRouter();
@@ -20,34 +26,38 @@ const Child: NextPage = () => {
 
   return (
     <main className="wrapper">
-      <Text>Hei og hopp</Text>
+      <h1 className="mb-4 text-3xl">Perlene til {detail.data?.name}</h1>
 
       {detail.data?.Beads.map((bead) => {
         return (
-          <li key={bead.id}>
+          <div key={bead.id}>
             <p className="text-white">
-              {bead.pokemon?.name} ({bead.pokemon?.number})
+              {capitalize(bead.pokemon?.name)} ({bead.pokemon?.number})
             </p>
-            <Image
-              width={250}
-              height={250}
-              src={bead.beadBlob?.image ?? ""}
-              alt="Perling"
-            />
+            <div className="flex items-center">
+              <Image
+                width={250}
+                height={250}
+                src={bead.beadBlob?.image ?? ""}
+                alt="Perling"
+              />
 
-            <Image
-              width={96}
-              height={96}
-              src={`/images/${bead.pokemon?.number ?? 0}.png`}
-              alt="Perling"
-            />
-          </li>
+              <Image
+                width={96}
+                height={96}
+                src={`/images/${bead.pokemon?.number ?? 0}.png`}
+                alt="Perling"
+              />
+            </div>
+          </div>
         );
       })}
 
       <div className="mb-4"></div>
 
-      <StyledLink link="/" text="Tilbake" />
+      <Link className="link" href="/">
+        Tilbake
+      </Link>
     </main>
   );
 };
