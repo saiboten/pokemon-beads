@@ -28,7 +28,20 @@ const Home: NextPage = () => {
       return true;
     }
 
-    return el.pokemon?.name.indexOf(searchFilter) !== -1;
+    return (
+      el.pokemon?.name.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1
+    );
+  });
+
+  const childBeadCount = children.data?.map((child) => {
+    const beadCountChild = beads.data
+      ?.filter((bead) => bead.child.id === child.id)
+      .reduce((sum) => sum + 1, 0);
+
+    return {
+      name: child.name,
+      count: beadCountChild,
+    };
   });
 
   return (
@@ -77,6 +90,17 @@ const Home: NextPage = () => {
             onChange={(e) => setSearchFilter(e.target.value)}
           ></input>
           <h1 className="mb-4 text-center text-4xl">Perler</h1>
+
+          <div className="mb-4">
+            {childBeadCount?.map((el) => {
+              return (
+                <p className="text-center" key={el.name}>
+                  {el.name}: {el.count} perler
+                </p>
+              );
+            })}
+          </div>
+
           {filteredBeads?.map((el) => {
             return (
               <Link
