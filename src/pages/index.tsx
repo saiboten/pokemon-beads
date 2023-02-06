@@ -8,10 +8,6 @@ import { useState } from "react";
 import { capitalize } from "../utils/capitalize";
 import { Loading } from "../components/Loading";
 
-function onlyUnique(value: string, index: number, self: string) {
-  return self.indexOf(value) === index;
-}
-
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
   const children = api.example.getChildren.useQuery();
