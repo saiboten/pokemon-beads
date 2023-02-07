@@ -2,9 +2,10 @@ import { useRouter } from "next/router";
 
 import { api } from "../utils/api";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { Loading } from "../components/Loading";
+
+import { capitalize } from "../utils/capitalize";
 
 interface Props {
   id: number;
@@ -40,7 +41,8 @@ export const BeadDetails = ({ id }: Props) => {
   return (
     <main className="wrapper m-auto max-w-md rounded-xl border-4">
       <h1 className="mb-4 text-2xl">
-        {detail.data.child.name} sin perling av {detail.data.pokemon?.name}
+        {detail.data.child.name} sin perling av{" "}
+        {capitalize(detail.data.pokemon?.name)}
       </h1>
       <div className="relative m-auto w-64">
         <Image

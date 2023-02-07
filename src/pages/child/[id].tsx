@@ -2,9 +2,7 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 
 import { api } from "../../utils/api";
-import Image from "next/image";
 import Link from "next/link";
-import { capitalize } from "../../utils/capitalize";
 import { Loading } from "../../components/Loading";
 import { BeadDetails } from "../../components/BeadDetail";
 
