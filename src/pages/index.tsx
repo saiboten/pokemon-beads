@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import { useQueryState } from "next-usequerystate";
 import Head from "next/head";
 import Link from "next/link";
 import { api } from "../utils/api";
@@ -11,7 +12,7 @@ import { Loading } from "../components/Loading";
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
   const children = api.example.getChildren.useQuery();
-  const [searchFilter, setSearchFilter] = useState("");
+  const [searchFilter, setSearchFilter] = useQueryState("name");
 
   const { status, data } = useSession();
 
@@ -25,7 +26,9 @@ const Home: NextPage = () => {
     }
 
     return (
-      el.pokemon?.name.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1
+      el.pokemon?.name
+        .toLowerCase()
+        .indexOf(searchFilter?.toLowerCase() ?? "") !== -1
     );
   });
 
@@ -82,7 +85,7 @@ const Home: NextPage = () => {
             className="mb-8 p-4 text-lg text-black"
             type="text"
             placeholder="Filtrer"
-            value={searchFilter}
+            value={searchFilter ?? ""}
             onChange={(e) => setSearchFilter(e.target.value)}
           ></input>
           <h1 className="mb-4 text-center text-4xl">Perler</h1>
@@ -122,7 +125,7 @@ const Home: NextPage = () => {
             className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
             onClick={data ? () => void signOut() : () => void signIn()}
           >
-            {data ? "Sign out" : "Sign in"}
+            {data ? "Logg ut" : "Logg inn"}
           </button>
         </div>
       </main>
