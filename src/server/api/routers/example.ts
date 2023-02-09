@@ -60,6 +60,7 @@ export const exampleRouter = createTRPCRouter({
             include: {
               pokemon: true,
               beadBlob: true,
+              child: true,
             },
           },
         },

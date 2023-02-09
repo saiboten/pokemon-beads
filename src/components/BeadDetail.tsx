@@ -6,33 +6,32 @@ import { useState } from "react";
 import { Loading } from "../components/Loading";
 
 import { capitalize } from "../utils/capitalize";
+import type { Bead, BeadImage, Child, Pokemon } from "@prisma/client";
 
 interface Props {
-  id: number;
+  bead: Bead & {
+    pokemon: Pokemon | null;
+    beadBlob: BeadImage | null;
+    child: Child | null;
+  };
 }
 
-export const BeadDetails = ({ id }: Props) => {
+export const BeadDetails = ({ bead }: Props) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const router = useRouter();
-
-  const detail = api.example.getBeadDetails.useQuery(id);
   const deleteBead = api.example.deleteBead.useMutation({
     onSuccess: async () => {
       await router.push("/");
     },
   });
 
-  if (detail.isLoading || deleteBead.isLoading) {
+  if (deleteBead.isLoading) {
     return <Loading />;
-  }
-
-  if (!detail.data?.beadBlob) {
-    throw new Error("Ingen perling her");
   }
 
   function handleDelete() {
     if (deleteConfirm) {
-      deleteBead.mutate(id);
+      deleteBead.mutate(bead.id);
     } else {
       setDeleteConfirm(true);
     }
@@ -41,14 +40,13 @@ export const BeadDetails = ({ id }: Props) => {
   return (
     <main className="wrapper m-auto max-w-md rounded-xl border-4">
       <h1 className="mb-4 text-2xl">
-        {detail.data.child.name} sin perling av{" "}
-        {capitalize(detail.data.pokemon?.name)}
+        {bead.child?.name} sin perling av {capitalize(bead.pokemon?.name)}
       </h1>
       <div className="relative m-auto w-64">
         <Image
           width={250}
           height={250}
-          src={detail.data.beadBlob.image}
+          src={bead.beadBlob?.image ?? ""}
           alt="Perling"
         />
 
@@ -56,7 +54,7 @@ export const BeadDetails = ({ id }: Props) => {
           className="absolute -right-4 -top-4"
           width={96}
           height={96}
-          src={`/images/${detail.data.pokemon?.number ?? 0}.png`}
+          src={`/images/${bead.pokemon?.number ?? 0}.png`}
           alt="Perling"
         />
       </div>
@@ -64,9 +62,7 @@ export const BeadDetails = ({ id }: Props) => {
 
       <span className="relative">
         {deleteConfirm ? (
-          <p className="top-50 absolute left-auto mb-4">
-            Sikker på at du vil slette?
-          </p>
+          <p className="mb-4">Sikker på at du vil slette?</p>
         ) : null}
         <button className="btn-warning" type="button" onClick={handleDelete}>
           Slett

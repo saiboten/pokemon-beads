@@ -27,7 +27,7 @@ const Child: NextPage = () => {
 
       <div className="flex flex-wrap gap-4">
         {detail.data?.Beads.map((bead) => {
-          return <BeadDetails key={bead.id} id={bead.id} />;
+          return <BeadDetails key={bead.id} bead={bead} />;
         })}
       </div>
 

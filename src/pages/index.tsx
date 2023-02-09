@@ -5,7 +5,6 @@ import Link from "next/link";
 import { api } from "../utils/api";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState } from "react";
 import { capitalize } from "../utils/capitalize";
 import { Loading } from "../components/Loading";
 
