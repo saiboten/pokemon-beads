@@ -8,9 +8,10 @@ import Image from "next/image";
 import Select from "react-select";
 import convert from "image-file-resize";
 import { api } from "../utils/api";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import { Loading } from "../components/Loading";
+import { useRouter } from "next/router";
 
 type FormData = {
   child: string;
@@ -25,10 +26,9 @@ function getBase64(file: File) {
 }
 
 const Create: NextPage = () => {
-  const [feedback, setFeedback] = useState<string | undefined>();
+  const router = useRouter();
   const pokemons = api.example.getPokemons.useQuery();
   const {
-    reset,
     control,
     register,
     handleSubmit,
@@ -36,15 +36,8 @@ const Create: NextPage = () => {
     formState: { isValid },
   } = useForm<FormData>();
   const store = api.example.storeBead.useMutation({
-    onSuccess: () => {
-      setFeedback("Lagret!");
-      reset({
-        image: undefined,
-        pokemon: {
-          value: undefined,
-          label: "",
-        },
-      });
+    onSuccess: async (data) => {
+      await router.push(`/bead/${data}`);
     },
   });
 
@@ -184,8 +177,6 @@ const Create: NextPage = () => {
               <Link className="link inline-block" href={"/"}>
                 Tilbake
               </Link>
-
-              {feedback ? feedback : null}
             </form>
           </div>
         </div>
