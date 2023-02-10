@@ -43,23 +43,6 @@ export const exampleRouter = createTRPCRouter({
         },
       });
 
-      return bead;
-    }),
-
-  getPokemonDetails: protectedProcedure
-    .input(z.number())
-    .query(async ({ ctx, input }) => {
-      const bead = await ctx.prisma.bead.findFirst({
-        where: {
-          id: input,
-        },
-        include: {
-          beadBlob: true,
-          child: true,
-          pokemon: true,
-        },
-      });
-
       if (!bead) {
         throw new Error("Could not find bead");
       }
@@ -83,10 +66,10 @@ export const exampleRouter = createTRPCRouter({
             type: types,
           },
         });
-        return updatedPokemon;
+        bead.pokemon = updatedPokemon;
       }
 
-      return bead.pokemon;
+      return bead;
     }),
 
   getChildren: protectedProcedure.query(async ({ ctx }) => {

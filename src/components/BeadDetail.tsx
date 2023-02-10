@@ -45,20 +45,14 @@ export const BeadDetails = ({ bead }: Props) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const router = useRouter();
 
-  const pokemonDetails = api.example.getPokemonDetails.useQuery(bead.id);
-
   const deleteBead = api.example.deleteBead.useMutation({
     onSuccess: async () => {
       await router.push("/");
     },
   });
 
-  if (deleteBead.isLoading || pokemonDetails.isLoading) {
+  if (deleteBead.isLoading) {
     return <Loading />;
-  }
-
-  if (!pokemonDetails.data) {
-    throw new Error("No data for pokemon details?");
   }
 
   function handleDelete() {
@@ -92,7 +86,7 @@ export const BeadDetails = ({ bead }: Props) => {
       </div>
       <ul>
         <div>Type:</div>
-        {pokemonDetails.data.type.map((el) => {
+        {(bead.pokemon?.type ?? []).map((el) => {
           return (
             <span className="pr-1" key={el}>
               {typeMap[el] ?? el}
