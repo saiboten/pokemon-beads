@@ -3,6 +3,14 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import sharp from "sharp";
 import pokemon from "./pokemon.json";
 
+interface PokemonResponse {
+  types: {
+    type: {
+      name: string;
+    };
+  }[];
+}
+
 export const exampleRouter = createTRPCRouter({
   getPokemons: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.pokemon.findMany();
@@ -36,6 +44,49 @@ export const exampleRouter = createTRPCRouter({
       });
 
       return bead;
+    }),
+
+  getPokemonDetails: protectedProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      const bead = await ctx.prisma.bead.findFirst({
+        where: {
+          id: input,
+        },
+        include: {
+          beadBlob: true,
+          child: true,
+          pokemon: true,
+        },
+      });
+
+      if (!bead) {
+        throw new Error("Could not find bead");
+      }
+
+      if (bead.pokemonId == null) {
+        throw new Error("No pokemon attached?!");
+      }
+
+      if ((bead.pokemon?.type ?? []).length == 0) {
+        const bla = await fetch(
+          `https://pokeapi.co/api/v2/pokemon/${bead?.pokemon?.number ?? "-1"}/`
+        );
+        const data = (await bla.json()) as PokemonResponse;
+        const types = data.types.map((el) => el.type.name);
+
+        const updatedPokemon = await ctx.prisma.pokemon.update({
+          where: {
+            id: bead.pokemonId,
+          },
+          data: {
+            type: types,
+          },
+        });
+        return updatedPokemon;
+      }
+
+      return bead.pokemon;
     }),
 
   getChildren: protectedProcedure.query(async ({ ctx }) => {

@@ -39,9 +39,10 @@ model Bead {
 }
 
 model Pokemon {
-    id     String @id @default(cuid())
+    id     String   @id @default(cuid())
     name   String
     number Int
+    type   String[]
     Bead   Bead[]
     User   User[]
 }

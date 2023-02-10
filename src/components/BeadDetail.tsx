@@ -8,6 +8,31 @@ import { Loading } from "../components/Loading";
 import { capitalize } from "../utils/capitalize";
 import type { Bead, BeadImage, Child, Pokemon } from "@prisma/client";
 
+interface Foo {
+  [key: string]: string;
+}
+
+const typeMap: Foo = {
+  fire: "Flamme",
+  poison: "Gift",
+  grass: "Gress",
+  water: "Vann",
+  fairy: "Fe",
+  normal: "Normal",
+  fighting: "Slåss",
+  electric: "Lyn",
+  steel: "Stål",
+  ice: "Is",
+  flying: "Flyging",
+  ground: "Bakke",
+  rock: "Stein",
+  bug: "Insekt",
+  dragon: "Drage",
+  dark: "Mørk",
+  psychic: "Synsk",
+  ghost: "Spøkelse",
+};
+
 interface Props {
   bead: Bead & {
     pokemon: Pokemon | null;
@@ -19,14 +44,21 @@ interface Props {
 export const BeadDetails = ({ bead }: Props) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const router = useRouter();
+
+  const pokemonDetails = api.example.getPokemonDetails.useQuery(bead.id);
+
   const deleteBead = api.example.deleteBead.useMutation({
     onSuccess: async () => {
       await router.push("/");
     },
   });
 
-  if (deleteBead.isLoading) {
+  if (deleteBead.isLoading || pokemonDetails.isLoading) {
     return <Loading />;
+  }
+
+  if (!pokemonDetails.data) {
+    throw new Error("No data for pokemon details?");
   }
 
   function handleDelete() {
@@ -58,6 +90,17 @@ export const BeadDetails = ({ bead }: Props) => {
           alt="Perling"
         />
       </div>
+      <ul>
+        <div>Type:</div>
+        {pokemonDetails.data.type.map((el) => {
+          return (
+            <span className="pr-1" key={el}>
+              {typeMap[el] ?? el}
+            </span>
+          );
+        })}
+      </ul>
+
       <div className="mb-4"></div>
 
       <span className="relative">
