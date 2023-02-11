@@ -84,8 +84,8 @@ export const BeadDetails = ({ bead }: Props) => {
           alt="Perling"
         />
       </div>
-      <div>Vekt: {bead.pokemon?.weight} kg</div>
-      <div>Høyde: {bead.pokemon?.height} cm</div>
+      <div>Vekt: {(bead.pokemon?.weight ?? 1) / 10} kg</div>
+      <div>Høyde: {(bead.pokemon?.height ?? 0) * 10} cm</div>
       <div>
         Type:
         {(bead.pokemon?.type ?? []).map((el) => {
