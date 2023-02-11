@@ -9,6 +9,8 @@ interface PokemonResponse {
       name: string;
     };
   }[];
+  height: number;
+  weight: number;
 }
 
 export const exampleRouter = createTRPCRouter({
@@ -51,7 +53,7 @@ export const exampleRouter = createTRPCRouter({
         throw new Error("No pokemon attached?!");
       }
 
-      if ((bead.pokemon?.type ?? []).length == 0) {
+      if (!bead.pokemon?.height) {
         const bla = await fetch(
           `https://pokeapi.co/api/v2/pokemon/${bead?.pokemon?.number ?? "-1"}/`
         );
@@ -64,6 +66,8 @@ export const exampleRouter = createTRPCRouter({
           },
           data: {
             type: types,
+            height: data.height,
+            weight: data.weight,
           },
         });
         bead.pokemon = updatedPokemon;

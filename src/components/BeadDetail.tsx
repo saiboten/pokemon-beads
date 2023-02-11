@@ -84,16 +84,18 @@ export const BeadDetails = ({ bead }: Props) => {
           alt="Perling"
         />
       </div>
-      <ul>
-        <div>Type:</div>
+      <div>Vekt: {bead.pokemon?.weight} kg</div>
+      <div>Høyde: {bead.pokemon?.height} cm</div>
+      <div>
+        Type:
         {(bead.pokemon?.type ?? []).map((el) => {
           return (
-            <span className="pr-1" key={el}>
+            <span className="pl-1" key={el}>
               {typeMap[el] ?? el}
             </span>
           );
         })}
-      </ul>
+      </div>
 
       <div className="mb-4"></div>
 

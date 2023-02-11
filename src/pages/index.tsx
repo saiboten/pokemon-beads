@@ -98,27 +98,23 @@ const Home: NextPage = () => {
               );
             })}
           </div>
-
-          {filteredBeads?.map((el) => {
-            return (
-              <Link
-                href={`/bead/${el.id}`}
-                key={el.id}
-                className="m-auto mb-4 block max-w-lg rounded-lg border border-solid border-white p-4 text-center text-white"
-              >
-                {el.child.name} #{el.pokemon?.number} -{" "}
-                {capitalize(el.pokemon?.name)}
-                <Image
-                  className="inline"
-                  width={96}
-                  height={96}
-                  src={`/images/${el.pokemon?.number ?? 0}.png`}
-                  alt="Perling"
-                />
-              </Link>
-            );
-          })}
+          <div className="grid-rows-auto grid grid-cols-5">
+            {filteredBeads?.map((el) => {
+              return (
+                <Link href={`/bead/${el.id}`} key={el.id} className="">
+                  <Image
+                    className="inline"
+                    width={96}
+                    height={96}
+                    src={`/images/${el.pokemon?.number ?? 0}.png`}
+                    alt="Perling"
+                  />
+                </Link>
+              );
+            })}
+          </div>
         </>
+
         <div className="flex flex-col items-center justify-center gap-4">
           <button
             className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
