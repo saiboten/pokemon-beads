@@ -28,6 +28,7 @@ function getBase64(file: File) {
 const Create: NextPage = () => {
   const router = useRouter();
   const pokemons = api.example.getPokemons.useQuery();
+  const children = api.example.getChildren.useQuery();
   const {
     control,
     register,
@@ -70,11 +71,11 @@ const Create: NextPage = () => {
     [pokemons]
   );
 
-  if (pokemons.isLoading) {
+  if (pokemons.isLoading || children.isLoading) {
     return <Loading />;
   }
 
-  if (!pokemons.data) {
+  if (!pokemons.data || !children.data) {
     throw new Error("No data");
   }
 
@@ -114,39 +115,26 @@ const Create: NextPage = () => {
                   alt="Perling"
                 />
               ) : null}
-
-              <div className="mb-4 flex items-center">
-                <input
-                  {...register("child")}
-                  required
-                  id="default-radio-1"
-                  type="radio"
-                  value="1"
-                  className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label
-                  htmlFor="default-radio-1"
-                  className="ml-2 text-sm font-medium"
-                >
-                  Sverre
-                </label>
-              </div>
-              <div className="mb-4 flex items-center">
-                <input
-                  {...register("child")}
-                  required
-                  id="default-radio-2"
-                  type="radio"
-                  value="2"
-                  className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label
-                  htmlFor="default-radio-2"
-                  className="ml-2 text-sm font-medium"
-                >
-                  Brage
-                </label>
-              </div>
+              {children.data.map((child) => {
+                return (
+                  <div key={child.id} className="mb-4 flex items-center">
+                    <input
+                      {...register("child")}
+                      required
+                      id={`child-${child.id}}`}
+                      type="radio"
+                      value={child.id}
+                      className="h-4 w-4 border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                    />
+                    <label
+                      htmlFor={`child-${child.id}}`}
+                      className="ml-2 text-sm font-medium"
+                    >
+                      {child.name}
+                    </label>
+                  </div>
+                );
+              })}
 
               <div>
                 {image === undefined ? null : (

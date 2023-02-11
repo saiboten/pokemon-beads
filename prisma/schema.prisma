@@ -42,6 +42,8 @@ model Pokemon {
     id     String   @id @default(cuid())
     name   String
     number Int
+    weight Int?
+    height Int?
     type   String[]
     Bead   Bead[]
     User   User[]
