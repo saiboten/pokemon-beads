@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { BeadDetails } from "../../components/BeadDetail";
 import { Loading } from "../../components/Loading";

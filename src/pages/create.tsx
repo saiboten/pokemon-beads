@@ -9,7 +9,6 @@ import Select from "react-select";
 import convert from "image-file-resize";
 import { api } from "../utils/api";
 import { useMemo } from "react";
-import Link from "next/link";
 import { Loading } from "../components/Loading";
 import { useRouter } from "next/router";
 

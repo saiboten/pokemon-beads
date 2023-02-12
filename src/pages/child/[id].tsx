@@ -2,7 +2,6 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 
 import { api } from "../../utils/api";
-import Link from "next/link";
 import { Loading } from "../../components/Loading";
 import { BeadDetails } from "../../components/BeadDetail";
 

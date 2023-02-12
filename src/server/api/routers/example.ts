@@ -31,6 +31,17 @@ export const exampleRouter = createTRPCRouter({
     );
   }),
 
+  getBeadBlob: protectedProcedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      const beadImage = await ctx.prisma.beadImage.findFirstOrThrow({
+        where: {
+          beadId: input,
+        },
+      });
+      return beadImage;
+    }),
+
   getBeadDetails: protectedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
@@ -97,7 +108,6 @@ export const exampleRouter = createTRPCRouter({
           Beads: {
             include: {
               pokemon: true,
-              beadBlob: true,
               child: true,
             },
           },

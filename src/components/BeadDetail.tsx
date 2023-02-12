@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Loading } from "../components/Loading";
 
 import { capitalize } from "../utils/capitalize";
-import type { Bead, BeadImage, Child, Pokemon } from "@prisma/client";
+import type { Bead, Child, Pokemon } from "@prisma/client";
 
 interface Foo {
   [key: string]: string;
@@ -36,7 +36,6 @@ const typeMap: Foo = {
 interface Props {
   bead: Bead & {
     pokemon: Pokemon | null;
-    beadBlob: BeadImage | null;
     child: Child | null;
   };
 }
@@ -45,13 +44,15 @@ export const BeadDetails = ({ bead }: Props) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const router = useRouter();
 
+  const beadBlob = api.example.getBeadBlob.useQuery(bead.id);
+
   const deleteBead = api.example.deleteBead.useMutation({
     onSuccess: async () => {
       await router.push("/");
     },
   });
 
-  if (deleteBead.isLoading) {
+  if (deleteBead.isLoading || beadBlob.isLoading) {
     return <Loading />;
   }
 
@@ -73,7 +74,7 @@ export const BeadDetails = ({ bead }: Props) => {
           <Image
             width={250}
             height={250}
-            src={bead.beadBlob?.image ?? ""}
+            src={beadBlob.data?.image ?? ""}
             alt="Perling"
           />
 
