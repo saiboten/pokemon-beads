@@ -74,14 +74,6 @@ const Home: NextPage = () => {
             })}
           </div>
 
-          <input
-            className="sm:min-w-auto mb-2 min-w-full p-4 text-lg text-black"
-            type="text"
-            placeholder="Filtrer"
-            value={searchFilter ?? ""}
-            onChange={(e) => setSearchFilter(e.target.value)}
-          ></input>
-
           <div className="grid-rows-auto grid grid-cols-5">
             {filteredBeads?.map((el) => {
               return (
@@ -98,6 +90,15 @@ const Home: NextPage = () => {
             })}
           </div>
         </>
+
+        <input
+          className="sm:min-w-auto mb-8 min-w-full p-4 text-lg text-black"
+          type="text"
+          placeholder="Filtrer"
+          value={searchFilter ?? ""}
+          onChange={(e) => setSearchFilter(e.target.value)}
+        ></input>
+
         <div className="start flex items-center gap-2">
           <Link className="link bg-green-800" href="/create">
             Jeg har laget ny perling!
