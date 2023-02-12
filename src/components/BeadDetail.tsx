@@ -64,49 +64,51 @@ export const BeadDetails = ({ bead }: Props) => {
   }
 
   return (
-    <main className="wrapper m-auto max-w-md rounded-xl border-4">
-      <h1 className="mb-4 text-2xl">
-        {bead.child?.name} sin perling av {capitalize(bead.pokemon?.name)}
-      </h1>
-      <div className="relative m-auto w-64">
-        <Image
-          width={250}
-          height={250}
-          src={bead.beadBlob?.image ?? ""}
-          alt="Perling"
-        />
+    <main className="wrapper p-2">
+      <div className="rounded-2xl bg-red-800 bg-opacity-20 p-4 drop-shadow-sm">
+        <h1 className="mb-4 text-2xl">
+          {bead.child?.name} sin perling av {capitalize(bead.pokemon?.name)}
+        </h1>
+        <div className="relative m-auto w-64">
+          <Image
+            width={250}
+            height={250}
+            src={bead.beadBlob?.image ?? ""}
+            alt="Perling"
+          />
 
-        <Image
-          className="absolute -right-4 -top-4"
-          width={96}
-          height={96}
-          src={`/images/${bead.pokemon?.number ?? 0}.png`}
-          alt="Perling"
-        />
+          <Image
+            className="absolute -right-4 -top-4"
+            width={96}
+            height={96}
+            src={`/images/${bead.pokemon?.number ?? 0}.png`}
+            alt="Perling"
+          />
+        </div>
+        <div>Vekt: {(bead.pokemon?.weight ?? 1) / 10} kg</div>
+        <div>Høyde: {(bead.pokemon?.height ?? 0) * 10} cm</div>
+        <div>
+          Type:
+          {(bead.pokemon?.type ?? []).map((el) => {
+            return (
+              <span className="pl-1" key={el}>
+                {typeMap[el] ?? el}
+              </span>
+            );
+          })}
+        </div>
+
+        <div className="mb-4"></div>
+
+        <span className="relative">
+          {deleteConfirm ? (
+            <p className="mb-4">Sikker på at du vil slette?</p>
+          ) : null}
+          <button className="btn-warning" type="button" onClick={handleDelete}>
+            Slett
+          </button>
+        </span>
       </div>
-      <div>Vekt: {(bead.pokemon?.weight ?? 1) / 10} kg</div>
-      <div>Høyde: {(bead.pokemon?.height ?? 0) * 10} cm</div>
-      <div>
-        Type:
-        {(bead.pokemon?.type ?? []).map((el) => {
-          return (
-            <span className="pl-1" key={el}>
-              {typeMap[el] ?? el}
-            </span>
-          );
-        })}
-      </div>
-
-      <div className="mb-4"></div>
-
-      <span className="relative">
-        {deleteConfirm ? (
-          <p className="mb-4">Sikker på at du vil slette?</p>
-        ) : null}
-        <button className="btn-warning" type="button" onClick={handleDelete}>
-          Slett
-        </button>
-      </span>
     </main>
   );
 };

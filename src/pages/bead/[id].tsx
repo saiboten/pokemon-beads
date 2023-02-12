@@ -21,9 +21,9 @@ const BeadDetailPage: NextPage = () => {
   }
 
   return (
-    <div className="m-auto mt-8 max-w-lg">
+    <div className="m-auto mt-2 max-w-lg">
       <BeadDetails bead={detail.data} />
-      <Link className="link mb-8 mt-8 mr-2 inline-block" href="/">
+      <Link className="link mb-4 ml-2 mr-2 inline-block" href="/">
         Tilbake
       </Link>
     </div>

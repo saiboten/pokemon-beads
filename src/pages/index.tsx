@@ -5,7 +5,6 @@ import Link from "next/link";
 import { api } from "../utils/api";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { capitalize } from "../utils/capitalize";
 import { Loading } from "../components/Loading";
 
 const Home: NextPage = () => {
@@ -39,6 +38,7 @@ const Home: NextPage = () => {
     return {
       name: child.name,
       count: beadCountChild,
+      link: child.id,
     };
   });
 
@@ -56,43 +56,26 @@ const Home: NextPage = () => {
               Logget inn som {data?.user?.name}
             </span>
           )}
-          <h1 className="mb-4 text-5xl font-extrabold text-white sm:text-[5rem]">
-            Pokemon
+          <h1 className="mb-4 text-3xl font-extrabold text-white">
+            Pokemon Perling
           </h1>
 
-          <Link
-            className="mb-4 inline-block gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="/create"
-          >
-            Jeg har laget ny perling!
-          </Link>
-          <div className="mb-4">
-            {children.data?.map((el) => {
-              return (
-                <Link
-                  className="link mr-2"
-                  href={`/child/${el.id}`}
-                  key={el.id}
-                >
-                  <div>{el.name}</div>
-                </Link>
-              );
-            })}
-          </div>
-          <h1 className="mb-4 text-center text-4xl">Perler</h1>
-
-          <div className="mb-4">
+          <div className="mb-4 grid grid-cols-2 gap-2">
             {childBeadCount?.map((el) => {
               return (
-                <p className="text-center" key={el.name}>
+                <Link
+                  href={`/child/${el.link}`}
+                  className="link text-center"
+                  key={el.link}
+                >
                   {el.name}: {el.count} perler
-                </p>
+                </Link>
               );
             })}
           </div>
 
           <input
-            className="sm:min-w-auto mb-8 min-w-full p-4 text-lg text-black"
+            className="sm:min-w-auto mb-2 min-w-full p-4 text-lg text-black"
             type="text"
             placeholder="Filtrer"
             value={searchFilter ?? ""}
@@ -115,10 +98,12 @@ const Home: NextPage = () => {
             })}
           </div>
         </>
-
-        <div className="flex flex-col items-center justify-center gap-4">
+        <div className="start flex items-center gap-2">
+          <Link className="link bg-green-800" href="/create">
+            Jeg har laget ny perling!
+          </Link>
           <button
-            className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+            className="link bg-blue-800"
             onClick={data ? () => void signOut() : () => void signIn()}
           >
             {data ? "Logg ut" : "Logg inn"}

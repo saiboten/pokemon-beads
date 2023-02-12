@@ -36,6 +36,6 @@ html {
   }
 
   .wrapper {
-    @apply container mx-auto p-4;
+    @apply container mx-auto max-w-lg p-4;
   }
 }
