@@ -21,9 +21,9 @@ const Child: NextPage = () => {
   return (
     <main className="wrapper max-w-xxl">
       <h1 className="mb-4 text-3xl">Perlene til {detail.data?.name}</h1>
-      <Link className="link mb-4" href="/">
+      <button className="button mb-4" onClick={() => router.back()}>
         Tilbake
-      </Link>
+      </button>
 
       <div className="flex flex-wrap gap-4">
         {detail.data?.Beads.map((bead) => {
@@ -33,9 +33,9 @@ const Child: NextPage = () => {
 
       <div className="mb-4"></div>
 
-      <Link className="link" href="/">
+      <button className="link" onClick={() => router.back()}>
         Tilbake
-      </Link>
+      </button>
     </main>
   );
 };

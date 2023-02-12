@@ -23,9 +23,13 @@ const BeadDetailPage: NextPage = () => {
   return (
     <div className="m-auto mt-2 max-w-lg">
       <BeadDetails bead={detail.data} />
-      <Link className="link mb-4 ml-2 mr-2 inline-block" href="/">
+
+      <button
+        className="link mb-4 ml-2 mr-2 inline-block"
+        onClick={() => router.back()}
+      >
         Tilbake
-      </Link>
+      </button>
     </div>
   );
 };

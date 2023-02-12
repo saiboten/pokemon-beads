@@ -162,9 +162,12 @@ const Create: NextPage = () => {
                 disabled={store.isLoading || !isValid}
               />
 
-              <Link className="link inline-block" href={"/"}>
+              <button
+                className="link inline-block"
+                onClick={() => router.back()}
+              >
                 Tilbake
-              </Link>
+              </button>
             </form>
           </div>
         </div>
