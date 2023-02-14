@@ -11,14 +11,23 @@ const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
   const children = api.example.getChildren.useQuery();
   const [searchFilter, setSearchFilter] = useQueryState("name");
+  const [childFilter, setChildFilter] = useQueryState("child");
 
   const { status, data } = useSession();
+
+  async function handleChildFilter(name: string) {
+    if (childFilter?.split(",")?.includes(name)) {
+      await setChildFilter(childFilter.replace(`${name},`, ""));
+    } else {
+      await setChildFilter(`${childFilter ?? ""}${name},`);
+    }
+  }
 
   if (beads.isLoading || status == "loading" || children.isLoading) {
     return <Loading />;
   }
 
-  const filteredBeads = beads.data?.filter((el) => {
+  let filteredBeads = beads.data?.filter((el) => {
     if (searchFilter === "") {
       return true;
     }
@@ -28,6 +37,15 @@ const Home: NextPage = () => {
         .toLowerCase()
         .indexOf(searchFilter?.toLowerCase() ?? "") !== -1
     );
+  });
+
+  filteredBeads = beads.data?.filter((el) => {
+    if (childFilter === null || childFilter === "") {
+      return true;
+    }
+
+    const childFilterArray = childFilter.split(",");
+    return childFilterArray.includes(el.child.name);
   });
 
   const childBeadCount = children.data?.map((child) => {
@@ -63,13 +81,16 @@ const Home: NextPage = () => {
           <div className="mb-4 grid grid-cols-2 gap-2">
             {childBeadCount?.map((el) => {
               return (
-                <Link
-                  href={`/child/${el.link}`}
-                  className="link text-center"
+                <button
+                  type="button"
+                  onClick={() => handleChildFilter(el.name)}
+                  className={`link text-center hover:bg-blue-800 active:bg-blue-800 ${
+                    childFilter?.indexOf(el.name) !== -1 ? "bg-blue-700" : ""
+                  }`}
                   key={el.link}
                 >
                   {el.name}: {el.count} perler
-                </Link>
+                </button>
               );
             })}
           </div>
