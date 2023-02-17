@@ -39,7 +39,7 @@ const Home: NextPage = () => {
     );
   });
 
-  filteredBeads = beads.data?.filter((el) => {
+  filteredBeads = filteredBeads?.filter((el) => {
     if (childFilter === null || childFilter === "") {
       return true;
     }
