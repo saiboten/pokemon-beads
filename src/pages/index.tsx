@@ -7,6 +7,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Loading } from "../components/Loading";
 
+const nameTypeMapper = {
+  ice: "Is",
+} as const;
+
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
   const children = api.example.getChildren.useQuery();
@@ -110,7 +114,7 @@ const Home: NextPage = () => {
                 <button
                   type="button"
                   onClick={() => handleChildFilter(el.name)}
-                  className={`link text-center hover:bg-blue-800 active:bg-blue-800 ${
+                  className={`passivelink text-center ${
                     childFilter?.indexOf(el.name) !== -1 ? "bg-blue-700" : ""
                   }`}
                   key={el.link}
@@ -123,109 +127,113 @@ const Home: NextPage = () => {
 
           <div className="flex flex-wrap gap-2">
             <button
-              className="link mr-2 bg-gray-200 text-black"
+              className={`passivelink mr-2 bg-gray-200 text-black ${
+                typeFilter?.indexOf("ice") !== -1 ? "bg-black text-white" : ""
+              }`}
               onClick={() => handleTypeFilter("ice")}
             >
               Is
             </button>
 
             <button
-              className="link mr-2 bg-green-800"
+              className="passivelink mr-2 bg-green-800"
               onClick={() => handleTypeFilter("grass")}
             >
               Gress
             </button>
 
             <button
-              className="link mr-2 bg-red-800"
+              className="passivelink mr-2 bg-red-800"
               onClick={() => handleTypeFilter("fire")}
             >
               Flamme
             </button>
 
             <button
-              className="link mr-2 bg-blue-800"
+              className="passivelink mr-2 bg-blue-800"
               onClick={() => handleTypeFilter("water")}
             >
               Vann
             </button>
 
             <button
-              className="link mr-2 bg-purple-800"
+              className="passivelink mr-2 bg-purple-800"
               onClick={() => handleTypeFilter("psychic")}
             >
               Synsk
             </button>
 
             <button
-              className="link mr-2 bg-gray-800"
+              className="passivelink mr-2 bg-gray-800"
               onClick={() => handleTypeFilter("rock")}
             >
               Stein
             </button>
 
             <button
-              className="link mr-2 bg-orange-800"
+              className="passivelink mr-2 bg-orange-800"
               onClick={() => handleTypeFilter("fighting")}
             >
               Slåss
             </button>
 
             <button
-              className="link mr-2 bg-black"
+              className="passivelink mr-2 bg-black"
               onClick={() => handleTypeFilter("flying")}
             >
               Flyging
             </button>
             <button
-              className="link mr-2 bg-yellow-400 text-black"
+              className="passivelink mr-2 bg-yellow-400 text-black"
               onClick={() => handleTypeFilter("electric")}
             >
               Elektrisk
             </button>
             <button
-              className="link mr-2 bg-black"
+              className="passivelink mr-2 bg-black"
               onClick={() => handleTypeFilter("ghost")}
             >
               Spøkelse
             </button>
             <button
-              className="link mr-2 bg-amber-800"
+              className="passivelink mr-2 bg-amber-800"
               onClick={() => handleTypeFilter("ground")}
             >
               Jord
             </button>
             <button
-              className="link mr-2 bg-green-800"
+              className="passivelink mr-2 bg-green-800"
               onClick={() => handleTypeFilter("insect")}
             >
               Insekt
             </button>
             <button
-              className="link mr-2 bg-gray-800"
+              className="passivelink mr-2 bg-gray-800"
               onClick={() => handleTypeFilter("steel")}
             >
               Stål
             </button>
             <button
-              className="link mr-2 bg-red-800"
+              className="passivelink mr-2 bg-red-800"
               onClick={() => handleTypeFilter("drage")}
             >
               Dragon
             </button>
             <button
-              className="link mr-2 bg-black"
+              className="passivelink mr-2 bg-black"
               onClick={() => handleTypeFilter("dark")}
             >
               Mørk
             </button>
             <button
-              className="link bg-pink-800"
+              className="passivelink bg-pink-800"
               onClick={() => handleTypeFilter("fairly")}
             >
               Fe
             </button>
           </div>
+
+          <div>Aktive typefiltre: {typeFilter?.split(",").join(" ")}</div>
 
           <input
             className="sm:min-w-auto mt-8 mb-2 min-w-full p-4 text-lg text-black"

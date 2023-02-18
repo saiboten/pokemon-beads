@@ -23,6 +23,10 @@ html {
     @apply inline-block rounded-xl  bg-white/10 p-4 text-white hover:bg-white/20;
   }
 
+  .passivelink {
+    @apply inline-block rounded-xl  bg-white/10 p-4 text-white;
+  }
+
   .loading {
     @apply flex min-h-screen items-center justify-center;
   }
