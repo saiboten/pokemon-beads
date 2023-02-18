@@ -12,6 +12,7 @@ const Home: NextPage = () => {
   const children = api.example.getChildren.useQuery();
   const [searchFilter, setSearchFilter] = useQueryState("name");
   const [childFilter, setChildFilter] = useQueryState("child");
+  const [typeFilter, setTypeFilter] = useQueryState("type");
 
   const { status, data } = useSession();
 
@@ -20,6 +21,14 @@ const Home: NextPage = () => {
       await setChildFilter(childFilter.replace(`${name},`, ""));
     } else {
       await setChildFilter(`${childFilter ?? ""}${name},`);
+    }
+  }
+
+  async function handleTypeFilter(name: string) {
+    if (typeFilter?.split(",")?.includes(name)) {
+      await setTypeFilter(typeFilter.replace(`${name},`, ""));
+    } else {
+      await setTypeFilter(`${typeFilter ?? ""}${name},`);
     }
   }
 
@@ -37,6 +46,23 @@ const Home: NextPage = () => {
         .toLowerCase()
         .indexOf(searchFilter?.toLowerCase() ?? "") !== -1
     );
+  });
+
+  filteredBeads = filteredBeads?.filter((el) => {
+    if (typeFilter === null || typeFilter === "") {
+      return true;
+    }
+
+    let exists = false;
+
+    const filterArray = typeFilter.split(",");
+    el.pokemon?.type.forEach((pokemonType) => {
+      if (filterArray.includes(pokemonType)) {
+        exists = true;
+        return true;
+      }
+    });
+    return exists;
   });
 
   filteredBeads = filteredBeads?.filter((el) => {
@@ -67,7 +93,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Pokemon Bead Overview" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="wrapper">
+      <main className="wrapper mb-10">
         <>
           {data && (
             <span className="mb-4 text-white">
@@ -95,6 +121,120 @@ const Home: NextPage = () => {
             })}
           </div>
 
+          <div className="flex flex-wrap gap-2">
+            <button
+              className="link mr-2 bg-gray-200 text-black"
+              onClick={() => handleTypeFilter("ice")}
+            >
+              Is
+            </button>
+
+            <button
+              className="link mr-2 bg-green-800"
+              onClick={() => handleTypeFilter("grass")}
+            >
+              Gress
+            </button>
+
+            <button
+              className="link mr-2 bg-red-800"
+              onClick={() => handleTypeFilter("fire")}
+            >
+              Flamme
+            </button>
+
+            <button
+              className="link mr-2 bg-blue-800"
+              onClick={() => handleTypeFilter("water")}
+            >
+              Vann
+            </button>
+
+            <button
+              className="link mr-2 bg-purple-800"
+              onClick={() => handleTypeFilter("psychic")}
+            >
+              Synsk
+            </button>
+
+            <button
+              className="link mr-2 bg-gray-800"
+              onClick={() => handleTypeFilter("rock")}
+            >
+              Stein
+            </button>
+
+            <button
+              className="link mr-2 bg-orange-800"
+              onClick={() => handleTypeFilter("fighting")}
+            >
+              Slåss
+            </button>
+
+            <button
+              className="link mr-2 bg-black"
+              onClick={() => handleTypeFilter("flying")}
+            >
+              Flyging
+            </button>
+            <button
+              className="link mr-2 bg-yellow-400 text-black"
+              onClick={() => handleTypeFilter("electric")}
+            >
+              Elektrisk
+            </button>
+            <button
+              className="link mr-2 bg-black"
+              onClick={() => handleTypeFilter("ghost")}
+            >
+              Spøkelse
+            </button>
+            <button
+              className="link mr-2 bg-amber-800"
+              onClick={() => handleTypeFilter("ground")}
+            >
+              Jord
+            </button>
+            <button
+              className="link mr-2 bg-green-800"
+              onClick={() => handleTypeFilter("insect")}
+            >
+              Insekt
+            </button>
+            <button
+              className="link mr-2 bg-gray-800"
+              onClick={() => handleTypeFilter("steel")}
+            >
+              Stål
+            </button>
+            <button
+              className="link mr-2 bg-red-800"
+              onClick={() => handleTypeFilter("drage")}
+            >
+              Dragon
+            </button>
+            <button
+              className="link mr-2 bg-black"
+              onClick={() => handleTypeFilter("dark")}
+            >
+              Mørk
+            </button>
+            <button
+              className="link bg-pink-800"
+              onClick={() => handleTypeFilter("fairly")}
+            >
+              Fe
+            </button>
+          </div>
+
+          <input
+            className="sm:min-w-auto mt-8 mb-2 min-w-full p-4 text-lg text-black"
+            type="text"
+            placeholder="Filtrer"
+            value={searchFilter ?? ""}
+            onChange={(e) => setSearchFilter(e.target.value)}
+          ></input>
+
           <div className="grid-rows-auto grid grid-cols-5">
             {filteredBeads?.map((el) => {
               return (
@@ -111,14 +251,6 @@ const Home: NextPage = () => {
             })}
           </div>
         </>
-
-        <input
-          className="sm:min-w-auto mb-8 min-w-full p-4 text-lg text-black"
-          type="text"
-          placeholder="Filtrer"
-          value={searchFilter ?? ""}
-          onChange={(e) => setSearchFilter(e.target.value)}
-        ></input>
 
         <div className="start flex items-center gap-2">
           <Link className="link bg-green-800" href="/create">
