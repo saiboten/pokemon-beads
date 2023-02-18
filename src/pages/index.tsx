@@ -7,9 +7,65 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Loading } from "../components/Loading";
 
-const nameTypeMapper = {
+type pokemonTypes =
+  | "fire"
+  | "ice"
+  | "water"
+  | "psychic"
+  | "dark"
+  | "dragon"
+  | "grass"
+  | "flying"
+  | "fairy"
+  | "rock"
+  | "fighting"
+  | "electric"
+  | "ghost"
+  | "ground"
+  | "insect"
+  | "steel"
+  | "normal";
+
+const nameTypeMapper: { [key in pokemonTypes]: string } = {
   ice: "Is",
+  grass: "Gress",
+  dark: "Mørk",
+  dragon: "Drage",
+  fire: "Flamme",
+  flying: "Flyging",
+  normal: "Normal",
+  psychic: "Synsk",
+  water: "Vann",
+  electric: "Elektrisk",
+  fairy: "Fe",
+  fighting: "Slåss",
+  ghost: "Spøkelse",
+  ground: "Jord",
+  insect: "Insekt",
+  rock: "Stein",
+  steel: "Stål",
 } as const;
+
+const FilterButton = ({
+  handleTypeFilter,
+  bgColor,
+  color,
+  type,
+}: {
+  color?: string;
+  bgColor: string;
+  type: keyof typeof nameTypeMapper;
+  handleTypeFilter: (type: keyof typeof nameTypeMapper) => void;
+}) => {
+  return (
+    <button
+      className={`passivelink ${bgColor} ${color ?? ""} mr-2`}
+      onClick={() => handleTypeFilter(type)}
+    >
+      {nameTypeMapper[type]}
+    </button>
+  );
+};
 
 const Home: NextPage = () => {
   const beads = api.example.getAllBeads.useQuery();
@@ -126,124 +182,122 @@ const Home: NextPage = () => {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <button
-              className={`passivelink mr-2 bg-gray-200 text-black ${
-                typeFilter?.indexOf("ice") !== -1 ? "bg-black text-white" : ""
-              }`}
-              onClick={() => handleTypeFilter("ice")}
-            >
-              Is
-            </button>
+            <FilterButton
+              color="text-black"
+              bgColor="bg-gray-200"
+              type="ice"
+              handleTypeFilter={handleTypeFilter}
+            />
 
-            <button
-              className="passivelink mr-2 bg-green-800"
-              onClick={() => handleTypeFilter("grass")}
-            >
-              Gress
-            </button>
+            <FilterButton
+              bgColor="bg-green-800"
+              type="grass"
+              handleTypeFilter={handleTypeFilter}
+            />
 
-            <button
-              className="passivelink mr-2 bg-red-800"
-              onClick={() => handleTypeFilter("fire")}
-            >
-              Flamme
-            </button>
+            <FilterButton
+              bgColor="bg-red-800"
+              type="fire"
+              handleTypeFilter={handleTypeFilter}
+            />
 
-            <button
-              className="passivelink mr-2 bg-blue-800"
-              onClick={() => handleTypeFilter("water")}
-            >
-              Vann
-            </button>
+            <FilterButton
+              bgColor="bg-blue-800"
+              type="water"
+              handleTypeFilter={handleTypeFilter}
+            />
 
-            <button
-              className="passivelink mr-2 bg-purple-800"
-              onClick={() => handleTypeFilter("psychic")}
-            >
-              Synsk
-            </button>
+            <FilterButton
+              bgColor="bg-purple-800"
+              type="psychic"
+              handleTypeFilter={handleTypeFilter}
+            />
+            <FilterButton
+              bgColor="bg-purple-800"
+              type="psychic"
+              handleTypeFilter={handleTypeFilter}
+            />
 
-            <button
-              className="passivelink mr-2 bg-gray-800"
-              onClick={() => handleTypeFilter("rock")}
-            >
-              Stein
-            </button>
+            <FilterButton
+              bgColor="bg-gray-800"
+              type="rock"
+              handleTypeFilter={handleTypeFilter}
+            />
 
-            <button
-              className="passivelink mr-2 bg-orange-800"
-              onClick={() => handleTypeFilter("fighting")}
-            >
-              Slåss
-            </button>
+            <FilterButton
+              bgColor="bg-orange-800"
+              type="fighting"
+              handleTypeFilter={handleTypeFilter}
+            />
 
-            <button
-              className="passivelink mr-2 bg-black"
-              onClick={() => handleTypeFilter("flying")}
-            >
-              Flyging
-            </button>
-            <button
-              className="passivelink mr-2 bg-yellow-400 text-black"
-              onClick={() => handleTypeFilter("electric")}
-            >
-              Elektrisk
-            </button>
-            <button
-              className="passivelink mr-2 bg-black"
-              onClick={() => handleTypeFilter("ghost")}
-            >
-              Spøkelse
-            </button>
-            <button
-              className="passivelink mr-2 bg-amber-800"
-              onClick={() => handleTypeFilter("ground")}
-            >
-              Jord
-            </button>
-            <button
-              className="passivelink mr-2 bg-green-800"
-              onClick={() => handleTypeFilter("insect")}
-            >
-              Insekt
-            </button>
-            <button
-              className="passivelink mr-2 bg-gray-800"
-              onClick={() => handleTypeFilter("steel")}
-            >
-              Stål
-            </button>
-            <button
-              className="passivelink mr-2 bg-red-800"
-              onClick={() => handleTypeFilter("drage")}
-            >
-              Dragon
-            </button>
-            <button
-              className="passivelink mr-2 bg-black"
-              onClick={() => handleTypeFilter("dark")}
-            >
-              Mørk
-            </button>
-            <button
-              className="passivelink bg-pink-800"
-              onClick={() => handleTypeFilter("fairly")}
-            >
-              Fe
-            </button>
+            <FilterButton
+              bgColor="bg-black"
+              type="flying"
+              handleTypeFilter={handleTypeFilter}
+            />
+
+            <FilterButton
+              bgColor="bg-yellow-400"
+              type="electric"
+              handleTypeFilter={handleTypeFilter}
+            />
+
+            <FilterButton
+              bgColor="bg-black"
+              type="ghost"
+              handleTypeFilter={handleTypeFilter}
+            />
+
+            <FilterButton
+              bgColor="bg-amber-800"
+              type="ground"
+              handleTypeFilter={handleTypeFilter}
+            />
+            <FilterButton
+              bgColor="bg-green-800"
+              type="insect"
+              handleTypeFilter={handleTypeFilter}
+            />
+
+            <FilterButton
+              bgColor="bg-gray-800"
+              type="steel"
+              handleTypeFilter={handleTypeFilter}
+            />
+
+            <FilterButton
+              bgColor="bg-red-800"
+              type="dragon"
+              handleTypeFilter={handleTypeFilter}
+            />
+
+            <FilterButton
+              bgColor="bg-black"
+              type="dark"
+              handleTypeFilter={handleTypeFilter}
+            />
+
+            <FilterButton
+              bgColor="bg-pink-800"
+              type="fairy"
+              handleTypeFilter={handleTypeFilter}
+            />
           </div>
 
-          <div>Aktive typefiltre: {typeFilter?.split(",").join(" ")}</div>
+          <div className="mt-4">
+            Aktive typefiltre: {typeFilter?.split(",").join(" ")}
+            {nameTypeMapper[typeFilter?.split(",").join(" ") as pokemonTypes]}
+          </div>
 
           <input
-            className="sm:min-w-auto mt-8 mb-2 min-w-full p-4 text-lg text-black"
+            className="sm:min-w-auto mt-8 mb-4 min-w-full p-4 text-lg text-black"
             type="text"
             placeholder="Filtrer"
             value={searchFilter ?? ""}
             onChange={(e) => setSearchFilter(e.target.value)}
           ></input>
 
-          <div className="grid-rows-auto grid grid-cols-5">
+          <div className="grid-rows-auto mb-4 grid grid-cols-5">
             {filteredBeads?.map((el) => {
               return (
                 <Link href={`/bead/${el.id}`} key={el.id} className="">
