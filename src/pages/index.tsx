@@ -61,7 +61,9 @@ const FilterButton = ({
 }) => {
   return (
     <button
-      className={`passivelink ${bgColor} ${color ?? ""} mr-2 ${
+      className={`inline-block min-w-[3rem] rounded-sm bg-white/10 p-2 text-white ${bgColor} ${
+        color ?? ""
+      } mr-2 ${
         typeFilter == null || typeFilter?.indexOf(type) === -1
           ? ""
           : "animate-pulse"
@@ -227,12 +229,6 @@ const Home: NextPage = () => {
               handleTypeFilter={handleTypeFilter}
             />
 
-            <FilterButton
-              typeFilter={typeFilter}
-              bgColor="bg-purple-800"
-              type="psychic"
-              handleTypeFilter={handleTypeFilter}
-            />
             <FilterButton
               typeFilter={typeFilter}
               bgColor="bg-purple-800"
