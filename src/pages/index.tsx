@@ -47,6 +47,7 @@ const nameTypeMapper: { [key in pokemonTypes]: string } = {
 } as const;
 
 const FilterButton = ({
+  typeFilter,
   handleTypeFilter,
   bgColor,
   color,
@@ -55,11 +56,14 @@ const FilterButton = ({
   color?: string;
   bgColor: string;
   type: keyof typeof nameTypeMapper;
+  typeFilter?: string | null;
   handleTypeFilter: (type: keyof typeof nameTypeMapper) => void;
 }) => {
   return (
     <button
-      className={`passivelink ${bgColor} ${color ?? ""} mr-2`}
+      className={`passivelink ${bgColor} ${color ?? ""} mr-2 ${
+        typeFilter?.indexOf(type) === -1 ? "" : "animate-pulse"
+      }`}
       onClick={() => handleTypeFilter(type)}
     >
       {nameTypeMapper[type]}
@@ -146,6 +150,14 @@ const Home: NextPage = () => {
     };
   });
 
+  const activeFilterText = typeFilter
+    ?.split(",")
+    .map((el) => {
+      return nameTypeMapper[el.trim() as pokemonTypes];
+    })
+    .join(", ")
+    .slice(0, -2);
+
   return (
     <>
       <Head>
@@ -183,6 +195,7 @@ const Home: NextPage = () => {
 
           <div className="flex flex-wrap gap-2">
             <FilterButton
+              typeFilter={typeFilter}
               color="text-black"
               bgColor="bg-gray-200"
               type="ice"
@@ -190,107 +203,124 @@ const Home: NextPage = () => {
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-green-800"
               type="grass"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-red-800"
               type="fire"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-blue-800"
               type="water"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-purple-800"
               type="psychic"
               handleTypeFilter={handleTypeFilter}
             />
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-purple-800"
               type="psychic"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-gray-800"
               type="rock"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-orange-800"
               type="fighting"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-black"
               type="flying"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-yellow-400"
               type="electric"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-black"
               type="ghost"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-amber-800"
               type="ground"
               handleTypeFilter={handleTypeFilter}
             />
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-green-800"
               type="insect"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-gray-800"
               type="steel"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-red-800"
               type="dragon"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-black"
               type="dark"
               handleTypeFilter={handleTypeFilter}
             />
 
             <FilterButton
+              typeFilter={typeFilter}
               bgColor="bg-pink-800"
               type="fairy"
               handleTypeFilter={handleTypeFilter}
             />
           </div>
 
-          <div className="mt-4">
-            Aktive typefiltre: {typeFilter?.split(",").join(" ")}
-            {nameTypeMapper[typeFilter?.split(",").join(" ") as pokemonTypes]}
+          <div className="mt-4 mb-4">
+            {(typeFilter?.length ?? 0) > 0 ? (
+              <div>Aktive typefiltre: {activeFilterText}</div>
+            ) : null}
           </div>
 
           <input
-            className="sm:min-w-auto mt-8 mb-4 min-w-full p-4 text-lg text-black"
+            className="sm:min-w-auto mb-4 min-w-full p-4 text-lg text-black"
             type="text"
             placeholder="Filtrer"
             value={searchFilter ?? ""}
