@@ -62,7 +62,9 @@ const FilterButton = ({
   return (
     <button
       className={`passivelink ${bgColor} ${color ?? ""} mr-2 ${
-        typeFilter?.indexOf(type) === -1 ? "" : "animate-pulse"
+        typeFilter == null || typeFilter?.indexOf(type) === -1
+          ? ""
+          : "animate-pulse"
       }`}
       onClick={() => handleTypeFilter(type)}
     >
@@ -183,7 +185,9 @@ const Home: NextPage = () => {
                   type="button"
                   onClick={() => handleChildFilter(el.name)}
                   className={`passivelink text-center ${
-                    childFilter?.indexOf(el.name) !== -1 ? "bg-blue-700" : ""
+                    childFilter == null || childFilter?.indexOf(el.name) === -1
+                      ? ""
+                      : "bg-blue-700"
                   }`}
                   key={el.link}
                 >

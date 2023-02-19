@@ -8,7 +8,7 @@ export const Loading = () => {
     <div className="loading">
       <div className="loading-inner">
         <Image
-          src={`/images/${ref.current})}.png`}
+          src={`/images/${ref.current}.png`}
           alt="Bulbasaur"
           height={96}
           width={96}
