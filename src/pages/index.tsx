@@ -24,9 +24,9 @@ const FilterButton = ({
 }) => {
   return (
     <button
-      className={`flex min-w-[3rem] items-center rounded-sm bg-white/10 p-2 text-white ${bgColor} ${
-        color ?? ""
-      } mr-2 ${
+      className={`flex min-w-[3rem] items-center rounded-sm bg-white/10 p-2 ${
+        color ?? "text-white"
+      } ${bgColor} ${color ?? ""} mr-2 ${
         typeFilter == null || typeFilter?.indexOf(type) === -1
           ? ""
           : "animate-pulse"
@@ -188,7 +188,7 @@ const Home: NextPage = () => {
 
             <FilterButton
               typeFilter={typeFilter}
-              bgColor="bg-red-800"
+              bgColor="bg-red-700"
               type="fire"
               handleTypeFilter={handleTypeFilter}
             />
@@ -230,8 +230,9 @@ const Home: NextPage = () => {
 
             <FilterButton
               typeFilter={typeFilter}
-              bgColor="bg-yellow-400"
+              bgColor="bg-yellow-200"
               type="electric"
+              color="text-black"
               handleTypeFilter={handleTypeFilter}
             />
 
