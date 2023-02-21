@@ -7,31 +7,8 @@ import { Loading } from "../components/Loading";
 
 import { capitalize } from "../utils/capitalize";
 import type { Bead, Child, Pokemon } from "@prisma/client";
-
-interface Foo {
-  [key: string]: string;
-}
-
-const typeMap: Foo = {
-  fire: "Flamme",
-  poison: "Gift",
-  grass: "Gress",
-  water: "Vann",
-  fairy: "Fe",
-  normal: "Normal",
-  fighting: "Slåss",
-  electric: "Lyn",
-  steel: "Stål",
-  ice: "Is",
-  flying: "Flyging",
-  ground: "Bakke",
-  rock: "Stein",
-  bug: "Insekt",
-  dragon: "Drage",
-  dark: "Mørk",
-  psychic: "Synsk",
-  ghost: "Spøkelse",
-};
+import { nameTypeMapper } from "../utils/nameMapper";
+import type { pokemonTypes } from "../types/pokemon";
 
 interface Props {
   bead: Bead & {
@@ -89,12 +66,19 @@ export const BeadDetails = ({ bead }: Props) => {
         <div>Vekt: {(bead.pokemon?.weight ?? 1) / 10} kg</div>
         <div>Høyde: {(bead.pokemon?.height ?? 0) * 10} cm</div>
         <div>
-          Type:
+          Typer:
           {(bead.pokemon?.type ?? []).map((el) => {
             return (
-              <span className="pl-1" key={el}>
-                {typeMap[el] ?? el}
-              </span>
+              <div className="flex items-center pl-1" key={el}>
+                {nameTypeMapper[el as pokemonTypes]}
+                <Image
+                  className="mr-2"
+                  alt={nameTypeMapper[el as pokemonTypes]}
+                  src={`/types/${el}.png`}
+                  width={24}
+                  height={24}
+                />
+              </div>
             );
           })}
         </div>

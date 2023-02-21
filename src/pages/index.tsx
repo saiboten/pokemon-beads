@@ -6,45 +6,8 @@ import { api } from "../utils/api";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { Loading } from "../components/Loading";
-
-type pokemonTypes =
-  | "fire"
-  | "ice"
-  | "water"
-  | "psychic"
-  | "dark"
-  | "dragon"
-  | "grass"
-  | "flying"
-  | "fairy"
-  | "rock"
-  | "fighting"
-  | "electric"
-  | "ghost"
-  | "ground"
-  | "insect"
-  | "steel"
-  | "normal";
-
-const nameTypeMapper: { [key in pokemonTypes]: string } = {
-  ice: "Is",
-  grass: "Gress",
-  dark: "Mørk",
-  dragon: "Drage",
-  fire: "Flamme",
-  flying: "Flyging",
-  normal: "Normal",
-  psychic: "Synsk",
-  water: "Vann",
-  electric: "Elektrisk",
-  fairy: "Fe",
-  fighting: "Slåss",
-  ghost: "Spøkelse",
-  ground: "Jord",
-  insect: "Insekt",
-  rock: "Stein",
-  steel: "Stål",
-} as const;
+import type { pokemonTypes } from "../types/pokemon";
+import { nameTypeMapper } from "../utils/nameMapper";
 
 const FilterButton = ({
   typeFilter,
@@ -61,7 +24,7 @@ const FilterButton = ({
 }) => {
   return (
     <button
-      className={`inline-block min-w-[3rem] rounded-sm bg-white/10 p-2 text-white ${bgColor} ${
+      className={`flex min-w-[3rem] items-center rounded-sm bg-white/10 p-2 text-white ${bgColor} ${
         color ?? ""
       } mr-2 ${
         typeFilter == null || typeFilter?.indexOf(type) === -1
@@ -70,6 +33,14 @@ const FilterButton = ({
       }`}
       onClick={() => handleTypeFilter(type)}
     >
+      <Image
+        className="mr-2"
+        alt={nameTypeMapper[type]}
+        src={`/types/${type}.png`}
+        width={24}
+        height={24}
+      />
+
       {nameTypeMapper[type]}
     </button>
   );
@@ -280,7 +251,7 @@ const Home: NextPage = () => {
             <FilterButton
               typeFilter={typeFilter}
               bgColor="bg-green-800"
-              type="insect"
+              type="bug"
               handleTypeFilter={handleTypeFilter}
             />
 
