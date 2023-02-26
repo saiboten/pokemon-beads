@@ -43,44 +43,50 @@ export const BeadDetails = ({ bead }: Props) => {
 
   return (
     <main className="wrapper p-2">
-      <div className="rounded-2xl bg-red-800 bg-opacity-20 p-4 drop-shadow-sm">
+      <div className="rounded-md border-black bg-white p-4 text-black">
         <h1 className="mb-4 text-2xl">
           {bead.child?.name} sin perling av {capitalize(bead.pokemon?.name)}
         </h1>
-        <div className="relative m-auto w-64">
-          <Image
-            width={250}
-            height={250}
-            src={beadBlob.data?.image ?? ""}
-            alt="Perling"
-          />
-
-          <Image
-            className="absolute -right-4 -top-4"
-            width={96}
-            height={96}
-            src={`/images/${bead.pokemon?.number ?? 0}.png`}
-            alt="Perling"
-          />
-        </div>
-        <div>Vekt: {(bead.pokemon?.weight ?? 1) / 10} kg</div>
-        <div>Høyde: {(bead.pokemon?.height ?? 0) * 10} cm</div>
-        <div>
-          Typer:
-          {(bead.pokemon?.type ?? []).map((el) => {
-            return (
-              <div className="flex items-center pl-1" key={el}>
-                {nameTypeMapper[el as pokemonTypes]}
-                <Image
-                  className="mr-2"
-                  alt={nameTypeMapper[el as pokemonTypes]}
-                  src={`/types/${el}.png`}
-                  width={24}
-                  height={24}
-                />
-              </div>
-            );
-          })}
+        <div className="flex justify-between">
+          <div className="basis-1/2">
+            <h2 className="mb-2 text-xl">Faktaark</h2>
+            <Image
+              className=""
+              width={96}
+              height={96}
+              src={`/images/${bead.pokemon?.number ?? 0}.png`}
+              alt="Perling"
+            />
+            <div>
+              Vekt: <strong>{(bead.pokemon?.weight ?? 1) / 10} kg</strong>
+            </div>
+            <div>
+              Høyde: <strong>{(bead.pokemon?.height ?? 0) * 10} cm</strong>
+            </div>
+            <div>
+              Typer:
+              {(bead.pokemon?.type ?? []).map((el) => {
+                return (
+                  <span className="inline-block translate-y-2 pl-1" key={el}>
+                    <Image
+                      alt={nameTypeMapper[el as pokemonTypes]}
+                      src={`/types/${el}.png`}
+                      width={24}
+                      height={24}
+                    />
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+          <div className="m-auto w-64 basis-1/2">
+            <Image
+              width={250}
+              height={250}
+              src={beadBlob.data?.image ?? ""}
+              alt="Perling"
+            />
+          </div>
         </div>
 
         <div className="mb-4"></div>
@@ -89,7 +95,7 @@ export const BeadDetails = ({ bead }: Props) => {
           {deleteConfirm ? (
             <p className="mb-4">Sikker på at du vil slette?</p>
           ) : null}
-          <button className="btn-warning" type="button" onClick={handleDelete}>
+          <button className="" type="button" onClick={handleDelete}>
             Slett
           </button>
         </span>
