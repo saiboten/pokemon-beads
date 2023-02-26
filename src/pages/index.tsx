@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Loading } from "../components/Loading";
 import type { pokemonTypes } from "../types/pokemon";
 import { nameTypeMapper } from "../utils/nameMapper";
+import { type } from "os";
 
 const FilterButton = ({
   typeFilter,
@@ -64,10 +65,10 @@ const Home: NextPage = () => {
   }
 
   async function handleTypeFilter(name: string) {
-    if (typeFilter?.split(",")?.includes(name)) {
-      await setTypeFilter(typeFilter.replace(`${name},`, ""));
+    if (typeFilter === name) {
+      await setTypeFilter("");
     } else {
-      await setTypeFilter(`${typeFilter ?? ""}${name},`);
+      await setTypeFilter(name);
     }
   }
 
@@ -94,9 +95,9 @@ const Home: NextPage = () => {
 
     let exists = false;
 
-    const filterArray = typeFilter.split(",");
+    // const filterArray = typeFilter.split(",");
     el.pokemon?.type.forEach((pokemonType) => {
-      if (filterArray.includes(pokemonType)) {
+      if (typeFilter.includes(pokemonType)) {
         exists = true;
         return true;
       }
@@ -287,7 +288,12 @@ const Home: NextPage = () => {
 
           <div className="mt-4 mb-4">
             {(typeFilter?.length ?? 0) > 0 ? (
-              <div>Aktive typefiltre: {activeFilterText}</div>
+              <button
+                className="link bg-blue-800"
+                onClick={() => setTypeFilter("")}
+              >
+                Fjern typefilter
+              </button>
             ) : null}
           </div>
 
