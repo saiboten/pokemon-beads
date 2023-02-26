@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Loading } from "../components/Loading";
 import type { pokemonTypes } from "../types/pokemon";
 import { nameTypeMapper } from "../utils/nameMapper";
-import { type } from "os";
+import { WrenchScrewdriverIcon } from "@heroicons/react/24/solid";
 
 const FilterButton = ({
   typeFilter,
@@ -144,14 +144,18 @@ const Home: NextPage = () => {
       <main className="wrapper mb-10">
         <>
           {data && (
-            <span className="mb-4 text-white">
-              Logget inn som {data?.user?.name}
-            </span>
+            <div className="flex justify-between">
+              <span className="mb-4 text-white">
+                Logget inn som {data?.user?.name}
+              </span>
+              <Link href="/settings">
+                <WrenchScrewdriverIcon className="h-6 w-6" />
+              </Link>
+            </div>
           )}
           <h1 className="mb-4 text-3xl font-extrabold text-white">
             Pokemon Perling
           </h1>
-
           <div className="mb-4 grid grid-cols-2 gap-2">
             {childBeadCount?.map((el) => {
               return (
@@ -170,7 +174,6 @@ const Home: NextPage = () => {
               );
             })}
           </div>
-
           <div className="flex flex-wrap gap-2">
             <FilterButton
               typeFilter={typeFilter}
@@ -285,7 +288,6 @@ const Home: NextPage = () => {
               handleTypeFilter={handleTypeFilter}
             />
           </div>
-
           <div className="mt-4 mb-4">
             {(typeFilter?.length ?? 0) > 0 ? (
               <button
@@ -296,7 +298,6 @@ const Home: NextPage = () => {
               </button>
             ) : null}
           </div>
-
           <input
             className="sm:min-w-auto mb-4 min-w-full p-4 text-lg text-black"
             type="text"
@@ -304,7 +305,6 @@ const Home: NextPage = () => {
             value={searchFilter ?? ""}
             onChange={(e) => setSearchFilter(e.target.value)}
           ></input>
-
           <div className="grid-rows-auto mb-4 grid grid-cols-5">
             {filteredBeads?.map((el) => {
               return (

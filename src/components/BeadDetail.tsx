@@ -44,12 +44,13 @@ export const BeadDetails = ({ bead }: Props) => {
   return (
     <main className="wrapper p-2">
       <div className="rounded-md border-black bg-white p-4 text-black">
-        <h1 className="mb-4 text-2xl">
-          {bead.child?.name} sin perling av {capitalize(bead.pokemon?.name)}
+        <h1 className="text-md mb-4">
+          <strong className="text-xl">{bead.child?.name}</strong> sin perling av{" "}
+          <strong className="text-xl">{capitalize(bead.pokemon?.name)}</strong>
         </h1>
         <div className="flex justify-between">
           <div className="basis-1/2">
-            <h2 className="mb-2 text-xl">Faktaark</h2>
+            <h2 className="mb-2 text-lg">Faktaark</h2>
             <Image
               className=""
               width={96}
@@ -57,14 +58,20 @@ export const BeadDetails = ({ bead }: Props) => {
               src={`/images/${bead.pokemon?.number ?? 0}.png`}
               alt="Perling"
             />
-            <div>
-              Vekt: <strong>{(bead.pokemon?.weight ?? 1) / 10} kg</strong>
+            <div className="text-sm">
+              Vekt:{" "}
+              <strong className="text-md">
+                {(bead.pokemon?.weight ?? 1) / 10} kg
+              </strong>
+            </div>
+            <div className="text-sm">
+              Høyde:{" "}
+              <strong className="text-md">
+                {(bead.pokemon?.height ?? 0) * 10} cm
+              </strong>
             </div>
             <div>
-              Høyde: <strong>{(bead.pokemon?.height ?? 0) * 10} cm</strong>
-            </div>
-            <div>
-              Typer:
+              Type:
               {(bead.pokemon?.type ?? []).map((el) => {
                 return (
                   <span className="inline-block translate-y-2 pl-1" key={el}>
@@ -81,6 +88,7 @@ export const BeadDetails = ({ bead }: Props) => {
           </div>
           <div className="m-auto w-64 basis-1/2">
             <Image
+              className="overflow-hidden rounded-lg shadow-inner ring-4 ring-slate-500"
               width={250}
               height={250}
               src={beadBlob.data?.image ?? ""}
