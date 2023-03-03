@@ -25,12 +25,12 @@ const FilterButton = ({
 }) => {
   return (
     <button
-      className={`flex min-w-[3rem] items-center rounded-sm bg-white/10 p-2 ${
+      className={`flex min-w-[3rem] items-center rounded-sm bg-white/10 p-2  ${
         color ?? "text-white"
       } ${bgColor} ${color ?? ""} mr-2 ${
         typeFilter == null || typeFilter?.indexOf(type) === -1
           ? ""
-          : "animate-pulse"
+          : "animate-pulse ring ring-white"
       }`}
       onClick={() => handleTypeFilter(type)}
     >
